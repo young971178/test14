@@ -951,13 +951,13 @@ export const Header: React.FC<HeaderProps> = ({
         </div>
 
         <div className="flex items-center gap-2 sm:gap-3">
-          <div className="flex items-center gap-2 bg-slate-800/90 border border-slate-700 rounded-xl px-2.5 py-1.5 shadow-xs">
+          <div className="flex items-center gap-2 bg-slate-800/90 border border-slate-700 rounded-xl px-3 py-1.5 shadow-xs">
             <div
               className={`w-7 h-7 rounded-lg ${activeUserData.avatarBg} text-white flex items-center justify-center font-bold text-xs shadow-2xs shrink-0`}
             >
               <User className="w-4 h-4" />
             </div>
-            <div className="text-left hidden sm:block">
+            <div className="text-left">
               <div className="text-xs font-bold text-white leading-none">
                 {activeUserData.name}{' '}
                 <span className="text-[10px] font-normal text-slate-400">
@@ -967,26 +967,6 @@ export const Header: React.FC<HeaderProps> = ({
               <div className="text-[10px] text-slate-400">
                 {activeUserData.dept}
               </div>
-            </div>
-
-            <div className="relative group">
-              <select
-                value={currentUser}
-                onChange={(e) => onSelectUser(e.target.value as UserName)}
-                className="bg-transparent text-xs font-bold text-indigo-300 cursor-pointer outline-none focus:ring-0 appearance-none pr-4"
-                title="사용자 변경"
-              >
-                {USERS.map((u) => (
-                  <option
-                    key={u.name}
-                    value={u.name}
-                    className="bg-slate-900 text-white font-medium py-1"
-                  >
-                    {u.name} ({u.role})
-                  </option>
-                ))}
-              </select>
-              <ChevronDown className="w-3.5 h-3.5 text-indigo-300 absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none" />
             </div>
           </div>
 
@@ -1011,16 +991,21 @@ export const Header: React.FC<HeaderProps> = ({
 interface BadgeMatrixProps {
   currentUser: UserName;
   onOpenCriteria: () => void;
+  onSelectModule: (id: ModuleId) => void;
 }
 
-export const BadgeMatrix: React.FC<BadgeMatrixProps> = ({ currentUser, onOpenCriteria }) => {
+export const BadgeMatrix: React.FC<BadgeMatrixProps> = ({
+  currentUser,
+  onOpenCriteria,
+  onSelectModule,
+}) => {
   const activeModules = getUserModules(currentUser);
   const reqs = getPromotionRequirements(currentUser);
   const status = evaluatePromotionStatus(currentUser);
   const userObj = USERS.find((u) => u.name === currentUser);
 
   return (
-    <div className="bg-white/90 backdrop-blur-md rounded-2xl border border-slate-200/80 shadow-xs p-2.5 md:p-3.5 flex flex-col justify-between h-full">
+    <div className="bg-white/90 backdrop-blur-md rounded-2xl border border-slate-200/80 shadow-xs p-3.5 md:p-4 flex flex-col gap-3">
       {/* Top Header & Promotion Status Summary */}
       <div className="flex flex-col gap-2 border-b border-slate-100 pb-2 mb-2">
         <div className="flex items-center justify-between flex-wrap gap-2">
@@ -1031,14 +1016,14 @@ export const BadgeMatrix: React.FC<BadgeMatrixProps> = ({ currentUser, onOpenCri
             <div>
               <div className="flex items-center gap-2">
                 <h2 className="text-sm md:text-base font-bold text-slate-900 leading-tight">
-                  {currentUser} 님의 모듈별 배지 획득 현황
+                  {currentUser} 님의 모듈별 배지 획득 현황 및 수강신청
                 </h2>
                 <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-100 text-slate-700 border border-slate-200">
                   {userObj?.group}
                 </span>
               </div>
               <p className="text-[11px] text-slate-500">
-                각 모듈별 획득 배지와 G2(책임급) / G3(수석급) 필수 기준선 표기
+                각 모듈별 배지 획득 현황(G2/G3 기준선)을 확인하고 바로 수강신청할 수 있습니다.
               </p>
             </div>
           </div>
@@ -1108,13 +1093,11 @@ export const BadgeMatrix: React.FC<BadgeMatrixProps> = ({ currentUser, onOpenCri
         </div>
       </div>
 
-      {/* Grid of Modules */}
-      <div
-        className={`grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 ${
-          activeModules.length <= 9 ? 'lg:grid-cols-3' : 'lg:grid-cols-5'
-        } gap-2 overflow-y-auto max-h-[calc(100%-6.5rem)] pr-0.5`}
-      >
+      {/* Grid of Unified Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
         {activeModules.map((moduleId) => {
+          const config = MODULE_CONFIGS[moduleId];
+          const hasPrereqs = config.prerequisites.length > 0;
           const userLevel: BadgeLevel = MODULE_BADGES[moduleId][currentUser] || 0;
           const req = reqs[moduleId];
           const hasG2Req = req.g2Level > 0;
@@ -1125,14 +1108,31 @@ export const BadgeMatrix: React.FC<BadgeMatrixProps> = ({ currentUser, onOpenCri
           return (
             <div
               key={moduleId}
-              className="bg-slate-50/80 hover:bg-slate-100 transition-colors duration-150 rounded-xl p-2 border border-slate-200/80 flex flex-col justify-between gap-1.5 shadow-2xs"
+              className="bg-white/95 hover:bg-white transition-all duration-200 rounded-2xl p-3 border border-slate-200/90 shadow-2xs hover:shadow-md flex flex-col justify-between gap-2.5 group"
             >
               {/* Card Header */}
-              <div className="flex items-center justify-between gap-1">
-                <div className="flex items-center gap-1.5 min-w-0">
-                  <span className="font-bold text-xs text-slate-900 tracking-tight truncate" title={moduleId}>
-                    {moduleId}
-                  </span>
+              <div className="flex items-center justify-between gap-1.5 border-b border-slate-100 pb-2">
+                <div className="flex items-center gap-2 min-w-0">
+                  <div className="p-1.5 rounded-lg bg-slate-100 group-hover:bg-indigo-50 group-hover:text-indigo-600 transition-colors border border-slate-200/60 shrink-0">
+                    {MODULE_ICONS[moduleId]}
+                  </div>
+                  <div className="min-w-0">
+                    <h3
+                      className="font-extrabold text-xs md:text-sm text-slate-900 tracking-tight truncate group-hover:text-indigo-700 transition-colors"
+                      title={moduleId}
+                    >
+                      {moduleId}
+                    </h3>
+                    <p className="text-[10px] text-slate-500 truncate">
+                      {hasPrereqs ? (
+                        <span className="text-amber-700 font-medium">
+                          선행: {config.prerequisites.join(', ')}
+                        </span>
+                      ) : (
+                        <span className="text-slate-400">선행 조건 없음</span>
+                      )}
+                    </p>
+                  </div>
                 </div>
 
                 {/* Level Status Badge */}
@@ -1150,14 +1150,14 @@ export const BadgeMatrix: React.FC<BadgeMatrixProps> = ({ currentUser, onOpenCri
                       : '노랑'}
                   </span>
                 ) : (
-                  <span className="text-[9px] font-medium px-1.5 py-0.5 rounded-full bg-slate-200/70 text-slate-500 shrink-0">
+                  <span className="text-[9px] font-medium px-1.5 py-0.5 rounded-full bg-slate-100 text-slate-500 shrink-0 border border-slate-200/60">
                     미획득
                   </span>
                 )}
               </div>
 
               {/* Badge Visual Row */}
-              <div className="flex flex-col bg-white p-1.5 rounded-lg border border-slate-200/60 shadow-2xs gap-1">
+              <div className="flex flex-col bg-slate-50/80 p-2 rounded-xl border border-slate-200/60 gap-1">
                 <div className="flex items-center justify-between px-0.5">
                   {BADGE_TYPES.map((badgeType, index) => {
                     const requiredLevel = (index + 1) as BadgeLevel;
@@ -1206,26 +1206,47 @@ export const BadgeMatrix: React.FC<BadgeMatrixProps> = ({ currentUser, onOpenCri
                 </div>
               </div>
 
-              {/* Requirement Summary Footer */}
-              <div className="flex items-center justify-between text-[10px] text-slate-500 pt-0.5 px-0.5">
-                <span className="font-medium text-slate-400">기준선:</span>
-                <div className="flex items-center gap-1 font-semibold">
-                  {hasG2Req ? (
-                    <span className={isG2Met ? 'text-emerald-700 font-bold' : 'text-slate-600'}>
-                      G2:{req.g2Level === 2 ? '녹색' : '검정'}
-                    </span>
-                  ) : (
-                    <span className="text-slate-400">G2:-</span>
-                  )}
-                  <span className="text-slate-300">|</span>
-                  {hasG3Req ? (
-                    <span className={isG3Met ? 'text-indigo-700 font-bold' : 'text-slate-600'}>
-                      G3:{req.g3Level === 2 ? '녹색' : '검정'}
-                    </span>
-                  ) : (
-                    <span className="text-slate-400">G3:-</span>
-                  )}
+              {/* Requirement Summary & Direct Enrollment Button */}
+              <div className="flex flex-col gap-1.5 pt-0.5">
+                <div className="flex items-center justify-between text-[10px] text-slate-500 px-0.5">
+                  <div className="flex items-center gap-1 font-semibold flex-wrap">
+                    {hasG2Req && (
+                      <span
+                        className={`px-1.5 py-0.2 rounded text-[9px] ${
+                          isG2Met
+                            ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
+                            : 'bg-slate-100 text-slate-600'
+                        }`}
+                      >
+                        G2:{req.g2Level === 2 ? '녹색' : '검정'}
+                      </span>
+                    )}
+                    {hasG3Req && (
+                      <span
+                        className={`px-1.5 py-0.2 rounded text-[9px] ${
+                          isG3Met
+                            ? 'bg-indigo-50 text-indigo-700 border border-indigo-200'
+                            : 'bg-slate-100 text-slate-600'
+                        }`}
+                      >
+                        G3:{req.g3Level === 2 ? '녹색' : '검정'}
+                      </span>
+                    )}
+                    {!hasG2Req && !hasG3Req && (
+                      <span className="text-slate-400 font-normal text-[9px]">자율 과목</span>
+                    )}
+                  </div>
                 </div>
+
+                {/* Enrollment Button */}
+                <button
+                  onClick={() => onSelectModule(moduleId)}
+                  className="w-full flex items-center justify-center gap-1.5 py-2 px-3 bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white rounded-xl text-xs font-bold transition-all shadow-xs hover:shadow-md cursor-pointer group/btn"
+                >
+                  <GraduationCap className="w-3.5 h-3.5" />
+                  <span>수강신청 바로가기</span>
+                  <ChevronRight className="w-3.5 h-3.5 group-hover/btn:translate-x-0.5 transition-transform" />
+                </button>
               </div>
             </div>
           );
@@ -1252,7 +1273,7 @@ export const ModuleGrid: React.FC<ModuleGridProps> = ({
   const reqs = getPromotionRequirements(currentUser);
 
   return (
-    <div className="bg-white/90 backdrop-blur-md rounded-2xl border border-slate-200/80 shadow-xs p-3 md:p-4 flex flex-col justify-between h-full">
+    <div className="bg-white/90 backdrop-blur-md rounded-2xl border border-slate-200/80 shadow-xs p-3.5 md:p-4 flex flex-col gap-3">
       <div className="flex items-center justify-between border-b border-slate-100 pb-2 mb-2">
         <div>
           <h2 className="text-base md:text-lg font-bold text-slate-900 tracking-tight flex items-center gap-2">
@@ -1267,11 +1288,7 @@ export const ModuleGrid: React.FC<ModuleGridProps> = ({
         </div>
       </div>
 
-      <div
-        className={`grid grid-cols-2 sm:grid-cols-3 ${
-          activeModules.length <= 9 ? 'lg:grid-cols-3' : 'lg:grid-cols-4'
-        } gap-2.5 overflow-y-auto max-h-[calc(100%-3rem)] pr-0.5`}
-      >
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2.5">
         {activeModules.map((id) => {
           const config = MODULE_CONFIGS[id];
           const hasPrereqs = config.prerequisites.length > 0;
@@ -1825,7 +1842,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen h-screen bg-slate-100 flex flex-col text-slate-900 font-sans overflow-hidden select-none">
+    <div className="min-h-screen bg-slate-100 flex flex-col text-slate-900 font-sans select-none">
       <Header
         currentUser={currentUser}
         onSelectUser={setCurrentUser}
@@ -1842,17 +1859,11 @@ export default function App() {
           />
         </main>
       ) : (
-        <main className="flex-1 flex flex-col gap-2.5 p-2.5 md:p-3.5 h-[calc(100vh-57px)] overflow-hidden">
-          <section className="h-[52%] min-h-0 w-full">
+        <main className="flex-1 flex flex-col gap-4 p-3 md:p-5 max-w-7xl mx-auto w-full">
+          <section className="w-full">
             <BadgeMatrix
               currentUser={currentUser}
               onOpenCriteria={() => setIsCriteriaOpen(true)}
-            />
-          </section>
-
-          <section className="h-[48%] min-h-0 w-full">
-            <ModuleGrid
-              currentUser={currentUser}
               onSelectModule={(id) => setActiveModule(id)}
             />
           </section>
