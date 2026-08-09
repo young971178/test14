@@ -100,12 +100,13 @@ export const USERS: {
   dept: string;
   avatarBg: string;
   group: '그룹1 (일반/공정)' | '그룹2 (AI/데이터)';
+  jobCategory: '제조직군' | '비제조 직군';
 }[] = [
-  { name: '박지성', role: '주임 연구원 (G1)', dept: '디지털 혁신팀', avatarBg: 'bg-emerald-600', group: '그룹1 (일반/공정)' },
-  { name: '이영표', role: '책임 엔지니어 (G2)', dept: '스마트 팩토리팀', avatarBg: 'bg-blue-600', group: '그룹1 (일반/공정)' },
-  { name: '손흥민', role: '주임 연구원 (G1)', dept: '공정 데이터 분석팀', avatarBg: 'bg-amber-600', group: '그룹1 (일반/공정)' },
-  { name: '류현진', role: '책임 데이터분석가 (G2)', dept: 'AI 데이터랩', avatarBg: 'bg-indigo-600', group: '그룹2 (AI/데이터)' },
-  { name: '박찬호', role: '수석 마스터 (G3)', dept: 'GDX 아카데미', avatarBg: 'bg-rose-600', group: '그룹2 (AI/데이터)' },
+  { name: '박지성', role: '주임 연구원 (G1)', dept: '디지털 혁신팀', avatarBg: 'bg-emerald-600', group: '그룹1 (일반/공정)', jobCategory: '제조직군' },
+  { name: '이영표', role: '책임 엔지니어 (G2)', dept: '스마트 팩토리팀', avatarBg: 'bg-blue-600', group: '그룹1 (일반/공정)', jobCategory: '제조직군' },
+  { name: '손흥민', role: '주임 연구원 (G1)', dept: '공정 데이터 분석팀', avatarBg: 'bg-amber-600', group: '그룹1 (일반/공정)', jobCategory: '제조직군' },
+  { name: '류현진', role: '책임 데이터분석가 (G2)', dept: 'AI 데이터랩', avatarBg: 'bg-indigo-600', group: '그룹2 (AI/데이터)', jobCategory: '비제조 직군' },
+  { name: '박찬호', role: '수석 마스터 (G3)', dept: 'GDX 아카데미', avatarBg: 'bg-rose-600', group: '그룹2 (AI/데이터)', jobCategory: '비제조 직군' },
 ];
 
 export const MODULE_ORDER: ModuleId[] = [
@@ -894,7 +895,6 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenCriteria,
 }) => {
   const activeUserData = USERS.find((u) => u.name === currentUser) || USERS[0];
-  const status = evaluatePromotionStatus(currentUser);
 
   return (
     <header className="bg-slate-900 text-white border-b border-slate-800 shadow-md px-3 md:px-6 py-2.5 shrink-0">
@@ -935,11 +935,17 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
         </div>
 
-        {/* Active Rank Badge Display */}
+        {/* Job Category Display */}
         <div className="hidden sm:flex items-center gap-2 bg-slate-800/80 px-3 py-1.5 rounded-xl border border-slate-700/80">
-          <span className="text-[10px] text-slate-400">현재 자격:</span>
-          <span className="text-xs font-black px-2.5 py-0.5 rounded-full bg-gradient-to-r from-amber-500 to-amber-600 text-white shadow-2xs">
-            {status.currentRank}
+          <span className="text-[10px] text-slate-400">직군 구분:</span>
+          <span
+            className={`text-xs font-black px-2.5 py-0.5 rounded-full text-white shadow-2xs ${
+              activeUserData.jobCategory === '제조직군'
+                ? 'bg-gradient-to-r from-emerald-600 to-teal-600 border border-emerald-400/30'
+                : 'bg-gradient-to-r from-indigo-600 to-purple-600 border border-indigo-400/30'
+            }`}
+          >
+            {activeUserData.jobCategory}
           </span>
           <button
             onClick={onOpenCriteria}
@@ -959,13 +965,7 @@ export const Header: React.FC<HeaderProps> = ({
             </div>
             <div className="text-left">
               <div className="text-xs font-bold text-white leading-none">
-                {activeUserData.name}{' '}
-                <span className="text-[10px] font-normal text-slate-400">
-                  ({activeUserData.role})
-                </span>
-              </div>
-              <div className="text-[10px] text-slate-400">
-                {activeUserData.dept}
+                {activeUserData.name} 프로
               </div>
             </div>
           </div>
@@ -1018,9 +1018,6 @@ export const BadgeMatrix: React.FC<BadgeMatrixProps> = ({
                 <h2 className="text-sm md:text-base font-bold text-slate-900 leading-tight">
                   {currentUser} 님의 모듈별 배지 획득 현황 및 수강신청
                 </h2>
-                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-100 text-slate-700 border border-slate-200">
-                  {userObj?.group}
-                </span>
               </div>
               <p className="text-[11px] text-slate-500">
                 각 모듈별 배지 획득 현황(G2/G3 기준선)을 확인하고 바로 수강신청할 수 있습니다.
@@ -1094,7 +1091,7 @@ export const BadgeMatrix: React.FC<BadgeMatrixProps> = ({
       </div>
 
       {/* Grid of Unified Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
         {activeModules.map((moduleId) => {
           const config = MODULE_CONFIGS[moduleId];
           const hasPrereqs = config.prerequisites.length > 0;
@@ -1241,11 +1238,11 @@ export const BadgeMatrix: React.FC<BadgeMatrixProps> = ({
                 {/* Enrollment Button */}
                 <button
                   onClick={() => onSelectModule(moduleId)}
-                  className="w-full flex items-center justify-center gap-1.5 py-2 px-3 bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white rounded-xl text-xs font-bold transition-all shadow-xs hover:shadow-md cursor-pointer group/btn"
+                  className="w-full flex items-center justify-center gap-1.5 py-2 px-3 bg-slate-800 hover:bg-slate-900 active:bg-slate-950 text-slate-100 border border-slate-700/50 rounded-xl text-xs font-bold transition-all shadow-2xs hover:shadow-sm cursor-pointer group/btn"
                 >
-                  <GraduationCap className="w-3.5 h-3.5" />
-                  <span>수강신청 바로가기</span>
-                  <ChevronRight className="w-3.5 h-3.5 group-hover/btn:translate-x-0.5 transition-transform" />
+                  <GraduationCap className="w-3.5 h-3.5 text-indigo-300 group-hover/btn:text-indigo-200" />
+                  <span>수강신청 알아보기</span>
+                  <ChevronRight className="w-3.5 h-3.5 text-indigo-300 group-hover/btn:text-indigo-200 group-hover/btn:translate-x-0.5 transition-transform" />
                 </button>
               </div>
             </div>
@@ -1288,7 +1285,7 @@ export const ModuleGrid: React.FC<ModuleGridProps> = ({
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2.5">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
         {activeModules.map((id) => {
           const config = MODULE_CONFIGS[id];
           const hasPrereqs = config.prerequisites.length > 0;
