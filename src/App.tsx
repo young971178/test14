@@ -34,6 +34,12 @@ import {
   Check,
   Target,
   TrendingUp,
+  FileText,
+  UserPlus,
+  Search,
+  Building2,
+  Clock,
+  Briefcase,
 } from 'lucide-react';
 
 // ==========================================
@@ -383,6 +389,1029 @@ export const MODULE_CONFIGS: Record<ModuleId, ModuleConfig> = {
     onlineHunetInfo: '시각화 온라인 과정은 휴넷에서 제공되는 Tableau 마스터 과정에 해당합니다. 수강신청 하시겠습니까?',
   },
 };
+
+// ==========================================
+// PROJECT MENTORING DATA MODEL & INITIAL DATA
+// ==========================================
+
+export interface ProjectItem {
+  id: number;
+  category: '제조직군' | '비제조직군';
+  module: ModuleId;
+  title: string;
+  assignee: string;
+  department: string;
+  status: '기획' | '진행중' | '검증' | '완료예정' | '작성중';
+  mentor: string;
+  needsMentor: boolean;
+  background: string;
+  target: string;
+  period: string;
+  techStack: string;
+}
+
+export const INITIAL_PROJECTS: ProjectItem[] = [
+  // 1. 기술통계 (5개)
+  {
+    id: 1,
+    category: '제조직군',
+    module: '기술통계',
+    title: '스마트 라인 공정 데이터 실시간 이상 탐지 및 변동성 분석',
+    assignee: '김철수',
+    department: '생산기술1팀',
+    status: '진행중',
+    mentor: '박지성',
+    needsMentor: false,
+    background: '생산 라인 수율 변동 최소화를 위한 실시간 공정 수치 이상 징후 감지 및 통계적 한계선 수립',
+    target: '공정 불량률 12% 감소 및 이상 징후 사전 경보',
+    period: '2026.08 ~ 2026.11',
+    techStack: '기술통계, Minitab, Python',
+  },
+  {
+    id: 2,
+    category: '제조직군',
+    module: '기술통계',
+    title: '조립 공정 사이클 타임 병목 구간 데이터 산출 및 표준화',
+    assignee: '한상우',
+    department: '생산1팀',
+    status: '완료예정',
+    mentor: '과제지도자 구함',
+    needsMentor: true,
+    background: '라인별 서브 조립 시간 산출 및 공정 평행도(Line Balancing) 개선',
+    target: '라인 생산성(UPH) 10% 향상',
+    period: '2026.06 ~ 2026.09',
+    techStack: '기술통계, Line Balancing',
+  },
+  {
+    id: 3,
+    category: '제조직군',
+    module: '기술통계',
+    title: '반도체 웨이퍼 패키징 두께 산패도 통계 지표 산출',
+    assignee: '박재현',
+    department: '패키징기술팀',
+    status: '검증',
+    mentor: '과제지도자 구함',
+    needsMentor: true,
+    background: '패키징 공정 도막 두께 정밀 데이터 수집 및 기술통계 기반 산패도 평가지표 수립',
+    target: '두께 편차 15% 감소',
+    period: '2026.09 ~ 2026.12',
+    techStack: '기술통계, Minitab',
+  },
+  {
+    id: 4,
+    category: '비제조직군',
+    module: '기술통계',
+    title: 'CRM 고객 구매 주기 및 이탈율 기술통계 패턴 분석',
+    assignee: '최지우',
+    department: '마케팅전략팀',
+    status: '진행중',
+    mentor: '이영표',
+    needsMentor: false,
+    background: '고객 활성도 기술통계 파악을 통한 재구매 주기 측정 및 리텐션 지표 표준화',
+    target: '고객 재구매율 8% 상승',
+    period: '2026.08 ~ 2026.11',
+    techStack: '기술통계, SQL, Excel',
+  },
+  {
+    id: 5,
+    category: '비제조직군',
+    module: '기술통계',
+    title: '신제품 가입자 리텐션 지표 통계 요약 대시보드 구축',
+    assignee: '윤서준',
+    department: '서비스기획팀',
+    status: '기획',
+    mentor: '과제지도자 구함',
+    needsMentor: true,
+    background: '주차별 가입자 활동 지표 기술통계 집계 및 시각화 리포트 구성',
+    target: '신규 가입자 이탈율 지표 정밀 파악',
+    period: '2026.10 ~ 2026.12',
+    techStack: '기술통계, Tableau',
+  },
+
+  // 2. 추론통계 (5개)
+  {
+    id: 6,
+    category: '제조직군',
+    module: '추론통계',
+    title: '설비 진동 신호 기반 고장 예지 보전(PdM) 유의성 검정',
+    assignee: '이민호',
+    department: '설비관리팀',
+    status: '기획',
+    mentor: '이영표',
+    needsMentor: false,
+    background: '주요 설비 회전체 진동 데이터의 상관관계 분석 및 모터 고장 인자 가설검정',
+    target: '돌발 설비 정지 시간 연간 25시간 단축',
+    period: '2026.09 ~ 2026.12',
+    techStack: '추론통계, 가설검정, Python',
+  },
+  {
+    id: 7,
+    category: '제조직군',
+    module: '추론통계',
+    title: '신규 가열 공정 온도 변경 전후 인장강도 차이 가설검정',
+    assignee: '강동원',
+    department: '재질연구팀',
+    status: '진행중',
+    mentor: '과제지도자 구함',
+    needsMentor: true,
+    background: '신규 가열 공정 파라미터 적용에 따른 강도 차이 Paired t-test 분석',
+    target: '인장강도 품질 유의성 입증',
+    period: '2026.08 ~ 2026.11',
+    techStack: '추론통계, Minitab',
+  },
+  {
+    id: 8,
+    category: '비제조직군',
+    module: '추론통계',
+    title: 'IT 서비스 UI 개편 A/B 테스트 전환율 통계적 유의성 검정',
+    assignee: '이수진',
+    department: 'UX디자인팀',
+    status: '진행중',
+    mentor: '류현진',
+    needsMentor: false,
+    background: '신규 구매 페이지 디자인 개편 후 결제 완료율 유의미성 비율 검정(Chi-Square)',
+    target: '전환율 유의적 5% 상승 검증',
+    period: '2026.08 ~ 2026.10',
+    techStack: '추론통계, R, A/B Testing',
+  },
+  {
+    id: 9,
+    category: '비제조직군',
+    module: '추론통계',
+    title: '고객센터 상담 만족도 개선 정책 효과 가설검정',
+    assignee: '한지민',
+    department: 'CS기획팀',
+    status: '검증',
+    mentor: '과제지도자 구함',
+    needsMentor: true,
+    background: '상담 가이드 개편 전후 CSAT 점수 평균 차이 t-test 검정 및 신뢰구간 산출',
+    target: '상담 만족도 평균 1.2점 유의적 개선',
+    period: '2026.07 ~ 2026.10',
+    techStack: '추론통계, SPSS',
+  },
+  {
+    id: 10,
+    category: '비제조직군',
+    module: '추론통계',
+    title: '재무 수지 예측 및 예산 이상 지출 가설검정 자동 감지',
+    assignee: '류지원',
+    department: '재무회계팀',
+    status: '검증',
+    mentor: '과제지도자 구함',
+    needsMentor: true,
+    background: '월별 사업부 예산 집행 항목의 통계적 이상치(Outlier) 감지 알고리즘',
+    target: '이상 예지 집행 감지율 95% 달성',
+    period: '2026.07 ~ 2026.10',
+    techStack: '추론통계, Python',
+  },
+
+  // 3. 실험계획법 (5개)
+  {
+    id: 11,
+    category: '제조직군',
+    module: '실험계획법',
+    title: '사출 성형 요인 최적화를 위한 DOE 다변량 실험계획',
+    assignee: '최영희',
+    department: '품질보증팀',
+    status: '검증',
+    mentor: '손흥민',
+    needsMentor: false,
+    background: '사출 압력, 온도, 속도 조합에 따른 치수 변형 최소화 도구로서 직교배열표 적용',
+    target: '성형 수율 94.5% → 98.0% 개선',
+    period: '2026.07 ~ 2026.10',
+    techStack: '실험계획법(DOE), Minitab',
+  },
+  {
+    id: 12,
+    category: '제조직군',
+    module: '실험계획법',
+    title: '프레스 금형 타수 수명 단축 요인 DOE 실험 및 해석',
+    assignee: '신동엽',
+    department: '금형기술팀',
+    status: '검증',
+    mentor: '정전문가',
+    needsMentor: false,
+    background: '금형 마모 속도 최소화를 위한 윤활유 분사량 및 금형 간격 요인 실험',
+    target: '금형 교체 주기 20% 연장',
+    period: '2026.06 ~ 2026.09',
+    techStack: '실험계획법, Minitab',
+  },
+  {
+    id: 13,
+    category: '제조직군',
+    module: '실험계획법',
+    title: '배터리 셀 도포 공정 최적 인자 도출 직교배열 실험',
+    assignee: '배수지',
+    department: '배터리공정팀',
+    status: '진행중',
+    mentor: '과제지도자 구함',
+    needsMentor: true,
+    background: '슬러리 코팅 속도 및 노즐 간격 요인에 대한 풀펙토리얼 실험 최적화',
+    target: '도포 불량률 0.5% 이하 달성',
+    period: '2026.09 ~ 2026.12',
+    techStack: '실험계획법, Minitab',
+  },
+  {
+    id: 14,
+    category: '비제조직군',
+    module: '실험계획법',
+    title: 'HR 평가 가중치 최적화를 위한 DOE 실험계획 적용',
+    assignee: '장동건',
+    department: 'HRD팀',
+    status: '기획',
+    mentor: '과제지도자 구함',
+    needsMentor: true,
+    background: '역량 평가 항목별 가중치 조절을 위한 시뮬레이션 기반 실험계획법 도출',
+    target: '평가 신뢰도 및 수용성 향상',
+    period: '2026.10 ~ 2026.12',
+    techStack: '실험계획법, Excel DOE',
+  },
+  {
+    id: 15,
+    category: '비제조직군',
+    module: '실험계획법',
+    title: '디지털 마케팅 타겟팅 조합 최적화 다변량 DOE',
+    assignee: '김태리',
+    department: '디지털마케팅팀',
+    status: '진행중',
+    mentor: '과제지도자 구함',
+    needsMentor: true,
+    background: '광고 소재, 문구, 타겟 연령대 간 상호작용 분석을 위한 요인실험계획법',
+    target: '광고 클릭률(CTR) 25% 증대',
+    period: '2026.08 ~ 2026.11',
+    techStack: '실험계획법, R',
+  },
+
+  // 4. 통계적공정관리 (5개)
+  {
+    id: 16,
+    category: '제조직군',
+    module: '통계적공정관리',
+    title: '도장 공정 피막 두께 관리를 위한 SPC 관리도 구축',
+    assignee: '정수진',
+    department: '생산2팀',
+    status: '진행중',
+    mentor: '과제지도자 구함',
+    needsMentor: true,
+    background: '차량 도장 도막 두께 균일도 유지를 위한 Xbar-R 관리도 및 Cp/Cpk 공정능력 실시간 측정',
+    target: 'Cpk 1.33 이상 확보 및 재작업 공정률 3% 미만 달성',
+    period: '2026.08 ~ 2026.11',
+    techStack: '통계적공정관리(SPC), Minitab',
+  },
+  {
+    id: 17,
+    category: '제조직군',
+    module: '통계적공정관리',
+    title: '도금 공정 액조 농도 자동 모니터링 및 Cpk 관리',
+    assignee: '황유진',
+    department: '표면처리팀',
+    status: '진행중',
+    mentor: '김마스터',
+    needsMentor: false,
+    background: '도금 액조 PH 및 약품 농도 실시간 측정 데이터 관리도 연동',
+    target: '도금 변색 불량 제로화',
+    period: '2026.07 ~ 2026.10',
+    techStack: '통계적공정관리, SPC',
+  },
+  {
+    id: 18,
+    category: '제조직군',
+    module: '통계적공정관리',
+    title: '용입 깊이 균일도 수치 SPC 및 공정능력지수 평가',
+    assignee: '이진욱',
+    department: '품질검사팀',
+    status: '검증',
+    mentor: '과제지도자 구함',
+    needsMentor: true,
+    background: '용접 비드 관통 심도 데이터 기반 P-관리도 모니터링 구축',
+    target: '공정 산폐율 0.2% 미만 유지',
+    period: '2026.08 ~ 2026.11',
+    techStack: '통계적공정관리, Minitab',
+  },
+  {
+    id: 19,
+    category: '비제조직군',
+    module: '통계적공정관리',
+    title: '콜센터 평균 통화시간(AHT) 변동성 SPC 관리도 도입',
+    assignee: '김혜수',
+    department: '고객만족팀',
+    status: '진행중',
+    mentor: '과제지도자 구함',
+    needsMentor: true,
+    background: '상담시간 변동성 제어를 위한 I-MR 관리도 적용 및 공정 안정 상태 진단',
+    target: '평균 처리시간 안정화 및 대기시간 단축',
+    period: '2026.09 ~ 2026.12',
+    techStack: '통계적공정관리, SPC, Excel',
+  },
+  {
+    id: 20,
+    category: '비제조직군',
+    module: '통계적공정관리',
+    title: '금융 데이터 처리 지연시간 관리 및 공정능력 평가',
+    assignee: '조인성',
+    department: '데이터운영팀',
+    status: '기획',
+    mentor: '과제지도자 구함',
+    needsMentor: true,
+    background: '트랜잭션 승인 반응속도 수치 모니터링 및 99% Cpk 한계치 관리',
+    target: '지연시간 100ms 이내 보장 비율 99.9%',
+    period: '2026.10 ~ 2027.01',
+    techStack: '통계적공정관리, Python',
+  },
+
+  // 5. 구조적문제해결방법론 (5개)
+  {
+    id: 21,
+    category: '제조직군',
+    module: '구조적문제해결방법론',
+    title: '열처리 공정 재가공 비율 감소를 위한 6Sigma DMAIC 과제',
+    assignee: '강동원',
+    department: '제조기술팀',
+    status: '기획',
+    mentor: '과제지도자 구함',
+    needsMentor: true,
+    background: '열처리 경도 불균일 원인에 대한 근본 원인 분석 및 8D 리포트 기반 구조적 개선',
+    target: '열처리 재작업 비용 연간 4천만원 절감',
+    period: '2026.09 ~ 2026.12',
+    techStack: '구조적문제해결방법론, DMAIC',
+  },
+  {
+    id: 22,
+    category: '제조직군',
+    module: '구조적문제해결방법론',
+    title: '모터 소음 불량 근본원인 규명 8D 구조적 해결 과제',
+    assignee: '오지호',
+    department: '품질보증1팀',
+    status: '진행중',
+    mentor: '손흥민',
+    needsMentor: false,
+    background: '회전체 베어링 진동 소음 유발 원인 계통 분석 및 5-Why 구조적 방지책 수립',
+    target: '소음 관련 클레임 80% 감소',
+    period: '2026.08 ~ 2026.11',
+    techStack: '구조적문제해결방법론, 8D Report',
+  },
+  {
+    id: 23,
+    category: '제조직군',
+    module: '구조적문제해결방법론',
+    title: '프레스 단조 공정 크랙 원인 규명 및 6시그마 문제해결',
+    assignee: '박성웅',
+    department: '단조기술팀',
+    status: '검증',
+    mentor: '과제지도자 구함',
+    needsMentor: true,
+    background: '단조 금형 유효 응력 집중 구간 개선 및 DMAIC 방법론 기반 수율 최적화',
+    target: '단조 크랙 발생률 0.1% 미만 달성',
+    period: '2026.07 ~ 2026.10',
+    techStack: '구조적문제해결방법론, DMAIC',
+  },
+  {
+    id: 24,
+    category: '비제조직군',
+    module: '구조적문제해결방법론',
+    title: '클레임 처리 프로세스 리드타임 단축 DMAIC 적용',
+    assignee: '서현진',
+    department: '고객지원팀',
+    status: '진행중',
+    mentor: '과제지도자 구함',
+    needsMentor: true,
+    background: '고객 불만 접수 후 최종 환불/교환 완료까지 병목 구간 6시그마 로직 분석',
+    target: '처리 리드타임 7일 → 3일 단축',
+    period: '2026.08 ~ 2026.11',
+    techStack: '구조적문제해결방법론, DMAIC',
+  },
+  {
+    id: 25,
+    category: '비제조직군',
+    module: '구조적문제해결방법론',
+    title: '구매 정산 오류율 제로화를 위한 Root Cause 분석 과제',
+    assignee: '유연석',
+    department: '재무회계팀',
+    status: '검증',
+    mentor: '과제지도자 구함',
+    needsMentor: true,
+    background: '세금계산서 입력 불일치 인자 Fishbone Diagram 및 5-Why 문제해결',
+    target: '정산 정오율 99.8% 달성',
+    period: '2026.07 ~ 2026.10',
+    techStack: '구조적문제해결방법론, 5-Why',
+  },
+
+  // 6. 미니탭리터러시 (5개)
+  {
+    id: 26,
+    category: '제조직군',
+    module: '미니탭리터러시',
+    title: '압출 라인 센서 데이터 품질 검증 및 회귀분석 모델링',
+    assignee: '윤아름',
+    department: '스마트팩토리팀',
+    status: '진행중',
+    mentor: '과제지도자 구함',
+    needsMentor: true,
+    background: 'Minitab을 활용한 압출 압력과 제품 인두 강도 간 상호작용 및 다중회귀 분석',
+    target: '불량 발생 예측 정확도 88% 확보',
+    period: '2026.08 ~ 2026.10',
+    techStack: '미니탭리터러시, Minitab',
+  },
+  {
+    id: 27,
+    category: '제조직군',
+    module: '미니탭리터러시',
+    title: 'Minitab 활용 칩 마운터 탑재 정밀도 통계 분석',
+    assignee: '신하균',
+    department: '정밀공정팀',
+    status: '기획',
+    mentor: '과제지도자 구함',
+    needsMentor: true,
+    background: '표면장착기술(SMT) 칩 마운터 오차 데이터 미니탭 기술통계 및 정규성 검정',
+    target: '장착 위치 오차 10㎛ 감소',
+    period: '2026.09 ~ 2026.12',
+    techStack: '미니탭리터러시, Minitab',
+  },
+  {
+    id: 28,
+    category: '제조직군',
+    module: '미니탭리터러시',
+    title: '열교환기 방열 성능 시험 수치 미니탭 요인 분석',
+    assignee: '지성진',
+    department: '열체계팀',
+    status: '검증',
+    mentor: '박지성',
+    needsMentor: false,
+    background: '방열판 소재 및 유량 설정별 방열 효율 미니탭 통계 그래프 분석',
+    target: '최적 방열 효율 인자 선정',
+    period: '2026.07 ~ 2026.10',
+    techStack: '미니탭리터러시, Minitab',
+  },
+  {
+    id: 29,
+    category: '비제조직군',
+    module: '미니탭리터러시',
+    title: '미니탭 기반 B2B 영업 손익 수치 통계적 요약 보고',
+    assignee: '김남길',
+    department: '영업관리팀',
+    status: '진행중',
+    mentor: '과제지도자 구함',
+    needsMentor: true,
+    background: '고객사별 계약 규모 및 이익률 데이터를 미니탭 상자수염그림 및 요약 통계로 산출',
+    target: '영업이익률 이상 거래 감지',
+    period: '2026.08 ~ 2026.11',
+    techStack: '미니탭리터러시, Minitab',
+  },
+  {
+    id: 30,
+    category: '비제조직군',
+    module: '미니탭리터러시',
+    title: '서비스 이용 지표 미니탭 산점도 및 상관관계 분석',
+    assignee: '원빈',
+    department: '서비스분석팀',
+    status: '완료예정',
+    mentor: '과제지도자 구함',
+    needsMentor: true,
+    background: '체류시간과 유료 구독 전환 간 상관계수 미니탭 통계적 산출 및 리포팅',
+    target: '핵심 전환 유발 지표 규명',
+    period: '2026.06 ~ 2026.09',
+    techStack: '미니탭리터러시, Minitab',
+  },
+
+  // 7. 파이썬리터러시 (5개)
+  {
+    id: 31,
+    category: '제조직군',
+    module: '파이썬리터러시',
+    title: '용접 부위 비파괴 검사 결함 자동 통계 처리 스크립트',
+    assignee: '임현우',
+    department: '품질기술팀',
+    status: '기획',
+    mentor: '과제지도자 구함',
+    needsMentor: true,
+    background: '파이썬 pandas/numpy를 활용한 초음파 비파괴 수집 데이터 자동 집계 파이프라인 구축',
+    target: '품질 검사 보고서 작성 시간 80% 단축',
+    period: '2026.09 ~ 2026.11',
+    techStack: '파이썬리터러시, Pandas',
+  },
+  {
+    id: 32,
+    category: '제조직군',
+    module: '파이썬리터러시',
+    title: 'Python Pandas 활용 라인 센서 Log 데이터 자동 정제',
+    assignee: '이광수',
+    department: '스마트설비팀',
+    status: '진행중',
+    mentor: '과제지도자 구함',
+    needsMentor: true,
+    background: '초당 수만 건 발생하는 라인 로그 데이터 결측치 처리 및 파이썬 파이프라인 수립',
+    target: '데이터 전처리 시간 연간 120시간 절감',
+    period: '2026.08 ~ 2026.11',
+    techStack: '파이썬리터러시, Python',
+  },
+  {
+    id: 33,
+    category: '제조직군',
+    module: '파이썬리터러시',
+    title: '금형 수명 모니터링 데이터 파이썬 크롤링 및 파싱',
+    assignee: '김태원',
+    department: '금형생산팀',
+    status: '검증',
+    mentor: '박찬호',
+    needsMentor: false,
+    background: '구형 설비 모니터 서버 텍스트 로그 파일 자동 수집 및 정형화 스크립트 작성',
+    target: '금형 교체 타이밍 정밀 추적',
+    period: '2026.07 ~ 2026.10',
+    techStack: '파이썬리터러시, Python',
+  },
+  {
+    id: 34,
+    category: '비제조직군',
+    module: '파이썬리터러시',
+    title: '파이썬 수집 고객 서베이 텍스트 데이터 자동 집계',
+    assignee: '박보영',
+    department: '마케팅분석팀',
+    status: '진행중',
+    mentor: '과제지도자 구함',
+    needsMentor: true,
+    background: '설문조사 객관식/주관식 데이터 파이썬 자동 전처리 및 통계 리포트 출력',
+    target: '설문 분석 보고서 자동화',
+    period: '2026.08 ~ 2026.11',
+    techStack: '파이썬리터러시, Pandas',
+  },
+  {
+    id: 35,
+    category: '비제조직군',
+    module: '파이썬리터러시',
+    title: '재무제표 수치 자동 추출 및 정량 분석 파이프라인',
+    assignee: '조승우',
+    department: '재무기획팀',
+    status: '기획',
+    mentor: '과제지도자 구함',
+    needsMentor: true,
+    background: '엑셀 및 PDF 재무제표의 핵심 지표 자동 추출 및 파이썬 통계 지표 생성',
+    target: '분기 결산 분석 정확도 향상',
+    period: '2026.09 ~ 2026.12',
+    techStack: '파이썬리터러시, Python',
+  },
+
+  // 8. 바이브코딩 (5개)
+  {
+    id: 36,
+    category: '제조직군',
+    module: '바이브코딩',
+    title: '바이브코딩 기반 공정 현황 모니터링 웹 대시보드',
+    assignee: '김선호',
+    department: '생산시스템팀',
+    status: '진행중',
+    mentor: '과제지도자 구함',
+    needsMentor: true,
+    background: '바이브코딩 도구를 활용해 현장 라인 가동율을 한눈에 보는 웹 모니터링 화면 구축',
+    target: '현장 가동 모니터링 신속화',
+    period: '2026.08 ~ 2026.11',
+    techStack: '바이브코딩, React',
+  },
+  {
+    id: 37,
+    category: '제조직군',
+    module: '바이브코딩',
+    title: '노코드/저코드 기반 품질 이슈 즉시 공유 모바일 앱',
+    assignee: '남주혁',
+    department: '품질기획팀',
+    status: '검증',
+    mentor: '이영표',
+    needsMentor: false,
+    background: '현장 품질 불량 발생 시 사진 촬영 및 즉시 알림 앱 프로토타입 작성',
+    target: '불량 초동 전파 시간 10분 이내',
+    period: '2026.07 ~ 2026.10',
+    techStack: '바이브코딩, AppSheet',
+  },
+  {
+    id: 38,
+    category: '비제조직군',
+    module: '바이브코딩',
+    title: '구매 SCM 리드타임 분석 및 자재 수급 예측 웹앱',
+    assignee: '홍길동',
+    department: '구매물류팀',
+    status: '작성중',
+    mentor: '과제지도자 구함',
+    needsMentor: true,
+    background: '바이브코딩을 활용해 해외 자재 입고 지연 원인 시각화 및 리드타임 산출 프로토타입 개발',
+    target: '자재 재고 안전유지비 8% 절감',
+    period: '2026.09 ~ 2026.12',
+    techStack: '바이브코딩, Python, Streamlit',
+  },
+  {
+    id: 39,
+    category: '비제조직군',
+    module: '바이브코딩',
+    title: 'HR 연차 신청 및 복지 포인트 통합 내부 대시보드',
+    assignee: '신민아',
+    department: '인사팀',
+    status: '진행중',
+    mentor: '과제지도자 구함',
+    needsMentor: true,
+    background: '사내 직원 복지 현황 및 연차 잔여일 확인 바이브코딩 웹 인터페이스 제작',
+    target: '인사 문의 응대건수 30% 감소',
+    period: '2026.08 ~ 2026.11',
+    techStack: '바이브코딩, Web',
+  },
+  {
+    id: 40,
+    category: '비제조직군',
+    module: '바이브코딩',
+    title: '마케팅 캠페인 성과 측정 가상 시뮬레이터 앱',
+    assignee: '이제훈',
+    department: '디지털마케팅팀',
+    status: '기획',
+    mentor: '과제지도자 구함',
+    needsMentor: true,
+    background: '예산 입력 시 기대 ROI 및 ROAS 가상 산출 인터랙티브 앱 구축',
+    target: '마케팅 예산 편성 효율화',
+    period: '2026.10 ~ 2026.12',
+    techStack: '바이브코딩, Streamlit',
+  },
+
+  // 9. 머신러닝 이론 (5개)
+  {
+    id: 41,
+    category: '제조직군',
+    module: '머신러닝 이론',
+    title: '원자재 투입량 최적화 및 수율 예측 분류 알고리즘',
+    assignee: '오성민',
+    department: '생산기획팀',
+    status: '작성중',
+    mentor: '과제지도자 구함',
+    needsMentor: true,
+    background: '원자재 배합율과 완제품 등급 간 머신러닝 분류 모델(Decision Tree/Random Forest) 적용',
+    target: '원자재 손실률 5% 감축',
+    period: '2026.10 ~ 2027.01',
+    techStack: '머신러닝 이론, Scikit-Learn',
+  },
+  {
+    id: 42,
+    category: '제조직군',
+    module: '머신러닝 이론',
+    title: '센서 진동 가속도 데이터 기반 이상 상태 ML 분류기',
+    assignee: '지창욱',
+    department: '설비기술팀',
+    status: '진행중',
+    mentor: '박지성',
+    needsMentor: false,
+    background: 'SVM 및 Random Forest 알고리즘 기반 정상/주의/위험 상태 3단계 분류기 이론검증',
+    target: '이상 탐지 F1-Score 0.92 달성',
+    period: '2026.08 ~ 2026.11',
+    techStack: '머신러닝 이론, Python',
+  },
+  {
+    id: 43,
+    category: '비제조직군',
+    module: '머신러닝 이론',
+    title: '고객 신용 등급 평가 및 대출 심사 ML 알고리즘 원리',
+    assignee: '한효주',
+    department: '리스크관리팀',
+    status: '기획',
+    mentor: '과제지도자 구함',
+    needsMentor: true,
+    background: '로지스틱 회귀 및 Decision Tree 알고리즘을 활용한 신용 평가 분류 알고리즘 수립',
+    target: '연체율 사전 예측률 향상',
+    period: '2026.09 ~ 2026.12',
+    techStack: '머신러닝 이론, Scikit-Learn',
+  },
+  {
+    id: 44,
+    category: '비제조직군',
+    module: '머신러닝 이론',
+    title: '사용자 세그멘테이션 K-Means 클러스터링 알고리즘',
+    assignee: '이도현',
+    department: '데이터전략팀',
+    status: '검증',
+    mentor: '과제지도자 구함',
+    needsMentor: true,
+    background: '비지도학습 K-Means 알고리즘 적용을 통한 고객 구매 행동군 5개 군집화',
+    target: '타겟 마케팅 효율 20% 상승',
+    period: '2026.07 ~ 2026.10',
+    techStack: '머신러닝 이론, Python',
+  },
+  {
+    id: 45,
+    category: '비제조직군',
+    module: '머신러닝 이론',
+    title: '상품 수요 변동 예측 시계열 Random Forest 모델',
+    assignee: '김서형',
+    department: 'SCM기획팀',
+    status: '진행중',
+    mentor: '과제지도자 구함',
+    needsMentor: true,
+    background: '계절성 요소 및 프로모션 인자를 포함한 머신러닝 회귀 모델링',
+    target: '재고 과부족 오차율 10% 감소',
+    period: '2026.08 ~ 2026.11',
+    techStack: '머신러닝 이론, Scikit-Learn',
+  },
+
+  // 10. 탐색적데이터분석 (5개)
+  {
+    id: 46,
+    category: '제조직군',
+    module: '탐색적데이터분석',
+    title: '소경 파이프 인두 인장강도 변수 EDA 및 불량 패턴 파악',
+    assignee: '송지은',
+    department: 'R&D 센터',
+    status: '진행중',
+    mentor: '과제지도자 구함',
+    needsMentor: true,
+    background: '원자재 성분 비율 및 환경 센서 데이터의 상관관계 시각화 및 EDA',
+    target: '핵심 품질 영향 인자 3개 도출',
+    period: '2026.08 ~ 2026.11',
+    techStack: '탐색적데이터분석(EDA), Seaborn',
+  },
+  {
+    id: 47,
+    category: '제조직군',
+    module: '탐색적데이터분석',
+    title: '주조 공정 온도·습도·압력 변수 다변량 EDA 시각화',
+    assignee: '임시완',
+    department: '주조기술팀',
+    status: '검증',
+    mentor: '과제지도자 구함',
+    needsMentor: true,
+    background: '센서 수집 다변량 데이터 히트맵 및 Pairplot을 통한 주조 기포 불량 인자 탐색',
+    target: '기포 불량 발생 인자 규명',
+    period: '2026.07 ~ 2026.10',
+    techStack: '탐색적데이터분석, Matplotlib',
+  },
+  {
+    id: 48,
+    category: '비제조직군',
+    module: '탐색적데이터분석',
+    title: '채용 지원자 이력서 키워드 EDA 및 서류 스코어링',
+    assignee: '안지영',
+    department: '인재개발팀',
+    status: '진행중',
+    mentor: '최데이터',
+    needsMentor: false,
+    background: '역대 합격자 직무 역량 키워드 분포 분석 및 EDA 시각화',
+    target: '서류 검토 시간 40% 단축',
+    period: '2026.08 ~ 2026.11',
+    techStack: '탐색적데이터분석, Text Mining',
+  },
+  {
+    id: 49,
+    category: '비제조직군',
+    module: '탐색적데이터분석',
+    title: '앱 사용자 유입 경로별 전환율 탐색적 데이터 분석',
+    assignee: '박규영',
+    department: 'UX연구팀',
+    status: '진행중',
+    mentor: '과제지도자 구함',
+    needsMentor: true,
+    background: '소셜 마케팅 채널별 유저 동선 로그 EDA 및 퍼널(Funnel) 지표 시각화',
+    target: '주요 이탈 퍼널 구간 도출',
+    period: '2026.08 ~ 2026.11',
+    techStack: '탐색적데이터분석, Python',
+  },
+  {
+    id: 50,
+    category: '비제조직군',
+    module: '탐색적데이터분석',
+    title: '신규 상품 가격대별 매출 데이터 EDA 및 주효과 분석',
+    assignee: '안효섭',
+    department: '상품기획팀',
+    status: '기획',
+    mentor: '과제지도자 구함',
+    needsMentor: true,
+    background: '가격 구간별 판매량 분포 EDA 및 이상 가격대 도출 시각화',
+    target: '최적 가격 탄력성 구간 도출',
+    period: '2026.09 ~ 2026.12',
+    techStack: '탐색적데이터분석, Pandas',
+  },
+
+  // 11. 머신러닝 모델링 (5개)
+  {
+    id: 51,
+    category: '제조직군',
+    module: '머신러닝 모델링',
+    title: 'AI 비전 검사기 외관 불량 자동 분류 분류기 구축',
+    assignee: '정우성',
+    department: 'SmartFactory팀',
+    status: '진행중',
+    mentor: '과제지도자 구함',
+    needsMentor: true,
+    background: '제품 표면 흠집 및 변색 이미지 분류를 위한 CNN/ResNet 모델 구축',
+    target: '외관 불량 검사 자동화율 95%',
+    period: '2026.08 ~ 2026.11',
+    techStack: '머신러닝 모델링, PyTorch',
+  },
+  {
+    id: 52,
+    category: '제조직군',
+    module: '머신러닝 모델링',
+    title: '라인 설비 센서 이상 탐지 Random Forest 기반 예측 모델',
+    assignee: '유아인',
+    department: '스마트설비팀',
+    status: '검증',
+    mentor: '과제지도자 구함',
+    needsMentor: true,
+    background: '설비 모터 수명 데이터 기반 XGBoost/Random Forest 고장 시점 예측',
+    target: '예지 보전 오차율 5% 이내',
+    period: '2026.07 ~ 2026.10',
+    techStack: '머신러닝 모델링, XGBoost',
+  },
+  {
+    id: 53,
+    category: '비제조직군',
+    module: '머신러닝 모델링',
+    title: '고객 이탈 예측 및 차별화 마케팅 타겟팅 ML 모델',
+    assignee: '서준호',
+    department: '마케팅전략팀',
+    status: '진행중',
+    mentor: '류현진',
+    needsMentor: false,
+    background: '고객 행동 로그 및 구매 이력 데이터 기반 XGBoost 이탈 예측 모델 수립',
+    target: '마케팅 이탈 방지 캠페인 ROI 30% 향상',
+    period: '2026.08 ~ 2026.11',
+    techStack: '머신러닝 모델링, XGBoost, Python',
+  },
+  {
+    id: 54,
+    category: '비제조직군',
+    module: '머신러닝 모델링',
+    title: 'B2B 교차 판매 가능성 예측 Gradient Boosting 모델',
+    assignee: '김수현',
+    department: '영업전략팀',
+    status: '기획',
+    mentor: '과제지도자 구함',
+    needsMentor: true,
+    background: '기존 고객사의 추가 솔루션 도입 확률 계산 ML 파이프라인 수립',
+    target: '교차 판매 성사율 18% 증가',
+    period: '2026.09 ~ 2026.12',
+    techStack: '머신러닝 모델링, LightGBM',
+  },
+  {
+    id: 55,
+    category: '비제조직군',
+    module: '머신러닝 모델링',
+    title: '물류 배송 지연 확률 예측 LightGBM 회귀 모델',
+    assignee: '정해인',
+    department: '물류운영팀',
+    status: '진행중',
+    mentor: '과제지도자 구함',
+    needsMentor: true,
+    background: '날씨, 교통량, 물동량 인자 기반 배송 지연 소요시간 예측',
+    target: '지연 사전 안내 만족도 증대',
+    period: '2026.08 ~ 2026.11',
+    techStack: '머신러닝 모델링, Python',
+  },
+
+  // 12. AI Automation (5개)
+  {
+    id: 56,
+    category: '제조직군',
+    module: 'AI Automation',
+    title: '설비 매뉴얼 Q&A 및 고장 조치 가이드 AI 챗봇 구축',
+    assignee: '박해일',
+    department: '설비보전팀',
+    status: '진행중',
+    mentor: '과제지도자 구함',
+    needsMentor: true,
+    background: '설비 매뉴얼 PDF 및 정비 이력 RAG 연동 고장 조치 AI 챗봇 개발',
+    target: '설비 보전 조치 시간 30% 단축',
+    period: '2026.08 ~ 2026.11',
+    techStack: 'AI Automation, RAG, Gemini API',
+  },
+  {
+    id: 57,
+    category: '제조직군',
+    module: 'AI Automation',
+    title: '작업 표준서 자동 생성 및 표준 검토 AI 오케스트레이션',
+    assignee: '이성민',
+    department: '제조혁신팀',
+    status: '기획',
+    mentor: '과제지도자 구함',
+    needsMentor: true,
+    background: '설계 변경사항 자동 감지 및 작업표준서 개정안 프롬프트 자동화',
+    target: '작업표준서 개정 시간 70% 절감',
+    period: '2026.09 ~ 2026.12',
+    techStack: 'AI Automation, Python, LLM',
+  },
+  {
+    id: 58,
+    category: '비제조직군',
+    module: 'AI Automation',
+    title: 'LLM 기반 사내 업무 문서 자동 요약 및 워크플로우 자동화',
+    assignee: '권보라',
+    department: 'DX기획팀',
+    status: '기획',
+    mentor: '박찬호',
+    needsMentor: false,
+    background: '사내 보고서 및 메일 데이터 자동 분류, 요약 및 템플릿 생성을 위한 AI 프롬프트 오케스트레이션',
+    target: '보고서 작성 단순 반복 업무 50% 단축',
+    period: '2026.09 ~ 2026.12',
+    techStack: 'AI Automation, Streamlit, Gemini API',
+  },
+  {
+    id: 59,
+    category: '비제조직군',
+    module: 'AI Automation',
+    title: '고객센터 문의 유형 자동 분류 및 챗봇 연동 파이프라인',
+    assignee: '조현우',
+    department: 'CS운영팀',
+    status: '완료예정',
+    mentor: '윤AI',
+    needsMentor: false,
+    background: 'VOC 고객 문의 접수 자동 태깅 및 FAQ 챗봇 연동 워크플로우 구축',
+    target: '단순 문의 응대 시간 60% 절감',
+    period: '2026.07 ~ 2026.10',
+    techStack: 'AI Automation, Python',
+  },
+  {
+    id: 60,
+    category: '비제조직군',
+    module: 'AI Automation',
+    title: '이메일 자동 분류 및 정형 데이터 변환 AI 파이프라인',
+    assignee: '김태리',
+    department: 'DX전략팀',
+    status: '진행중',
+    mentor: '과제지도자 구함',
+    needsMentor: true,
+    background: '거래처 수발주 이메일 데이터 텍스트 구문 분석 및 DB 자동 적재',
+    target: '수발주 입력 오류 0건 달성',
+    period: '2026.08 ~ 2026.11',
+    techStack: 'AI Automation, Python',
+  },
+
+  // 13. 시각화 (5개)
+  {
+    id: 61,
+    category: '제조직군',
+    module: '시각화',
+    title: '클린룸 온습도 환경 센서 대시보드 구축',
+    assignee: '배수지',
+    department: '환경안전팀',
+    status: '완료예정',
+    mentor: '강코치',
+    needsMentor: false,
+    background: '반도체/전자 소재 클린룸 환경 실시간 모니터링 시각화',
+    target: '환경 이탈 발생 시 초동 대응 시간 5분 이내 확보',
+    period: '2026.07 ~ 2026.09',
+    techStack: '시각화, Tableau',
+  },
+  {
+    id: 62,
+    category: '제조직군',
+    module: '시각화',
+    title: '전 생산 라인 실시간 수율 및 종합설비효율(OEE) 시각화',
+    assignee: '하정우',
+    department: '생산통합팀',
+    status: '진행중',
+    mentor: '과제지도자 구함',
+    needsMentor: true,
+    background: '라인별 가동률, 시간가동률, 성능가동률 실시간 통합 대시보드 구축',
+    target: 'OEE 실시간 전파 및 라인 효율 5% 증대',
+    period: '2026.08 ~ 2026.11',
+    techStack: '시각화, Power BI',
+  },
+  {
+    id: 63,
+    category: '비제조직군',
+    module: '시각화',
+    title: '영업 실적 데이터 시각화 및 지역별 매출 대시보드',
+    assignee: '문성진',
+    department: '영업기획팀',
+    status: '진행중',
+    mentor: '과제지도자 구함',
+    needsMentor: true,
+    background: '전국 사업장 및 품목별 매출 실적의 실시간 대시보드화 및 실적 모니터링',
+    target: '월간 영업 보고서 작성 자동화',
+    period: '2026.08 ~ 2026.10',
+    techStack: '시각화, Tableau, SQL',
+  },
+  {
+    id: 64,
+    category: '비제조직군',
+    module: '시각화',
+    title: '경영진 전용 KPI 및 월간 실적 실시간 통합 대시보드',
+    assignee: '김혜수',
+    department: '경영기획팀',
+    status: '완료예정',
+    mentor: '과제지도자 구함',
+    needsMentor: true,
+    background: '매출, 영업이익, 재고, 인력 현황 통합 리포트 시각화 차트 구축',
+    target: '경영진 의사결정 시차 제로화',
+    period: '2026.07 ~ 2026.09',
+    techStack: '시각화, Tableau',
+  },
+  {
+    id: 65,
+    category: '비제조직군',
+    module: '시각화',
+    title: '글로벌 물류 배송 지점 지도 시각화 대시보드',
+    assignee: '유재석',
+    department: '글로벌SCM팀',
+    status: '기획',
+    mentor: '과제지도자 구함',
+    needsMentor: true,
+    background: '해외 거점 항구별 컨테이너 체류 기간 및 지연 지도 시각화',
+    target: '체류 지연비용 10% 절감',
+    period: '2026.09 ~ 2026.12',
+    techStack: '시각화, Folium, Tableau',
+  },
+];
 
 export const BADGE_TYPES: BadgeType[] = ['노랑', '녹색', '검정', '실버크라운', '골드크라운'];
 
@@ -985,6 +2014,485 @@ export const Header: React.FC<HeaderProps> = ({
 };
 
 // ==========================================
+// PROJECT SPECIFICATION POPUP MODAL
+// ==========================================
+
+interface ProjectSpecModalProps {
+  project: ProjectItem;
+  currentUser: UserName;
+  onClose: () => void;
+  onConfirmApply: (projectId: number) => void;
+}
+
+export const ProjectSpecModal: React.FC<ProjectSpecModalProps> = ({
+  project,
+  currentUser,
+  onClose,
+  onConfirmApply,
+}) => {
+  const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
+
+  const handleApplyClick = () => {
+    onConfirmApply(project.id);
+    setIsSubmitted(true);
+  };
+
+  return (
+    <div className="fixed inset-0 z-60 flex items-center justify-center p-3 sm:p-5 bg-slate-950/70 backdrop-blur-xs animate-fadeIn">
+      <div className="bg-white rounded-3xl border border-slate-200 shadow-2xl max-w-2xl w-full max-h-[90vh] flex flex-col overflow-hidden">
+        {/* Header */}
+        <div className="bg-slate-900 text-white p-4 sm:p-5 flex items-center justify-between border-b border-slate-800 shrink-0">
+          <div className="flex items-center gap-3 min-w-0">
+            <div className="p-2 bg-indigo-600/30 rounded-xl border border-indigo-500/40 text-indigo-300 shrink-0">
+              <FileText className="w-5 h-5" />
+            </div>
+            <div className="min-w-0">
+              <span className="text-[10px] font-bold text-indigo-300 uppercase tracking-wider block">
+                GDX 과제기술서 상세
+              </span>
+              <h3 className="text-sm sm:text-base font-black text-white leading-snug truncate">
+                {project.title}
+              </h3>
+            </div>
+          </div>
+          <button
+            onClick={onClose}
+            className="p-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white transition-colors cursor-pointer shrink-0"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+
+        {/* Content Body */}
+        <div className="p-5 overflow-y-auto space-y-3.5 text-xs sm:text-sm">
+          {/* Metadata Summary Banner */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 bg-slate-50 p-3 rounded-2xl border border-slate-200/80">
+            <div>
+              <span className="text-[10px] text-slate-400 font-bold block">직군 구분</span>
+              <span className="font-extrabold text-slate-800 text-xs">{project.category}</span>
+            </div>
+            <div>
+              <span className="text-[10px] text-slate-400 font-bold block">연계 모듈</span>
+              <span className="font-extrabold text-indigo-700 text-xs">{project.module}</span>
+            </div>
+            <div>
+              <span className="text-[10px] text-slate-400 font-bold block">담당자 / 부서</span>
+              <span className="font-extrabold text-slate-800 text-xs truncate block">
+                {project.assignee} 프로 ({project.department})
+              </span>
+            </div>
+            <div>
+              <span className="text-[10px] text-slate-400 font-bold block">현재 진행 상황</span>
+              <span className="font-bold text-blue-700 text-xs">{project.status}</span>
+            </div>
+          </div>
+
+          {/* Detailed Spec Sections */}
+          <div className="space-y-2.5 pt-0.5">
+            <div className="bg-white p-3.5 rounded-2xl border border-slate-200/80 space-y-1 shadow-2xs">
+              <div className="flex items-center gap-1.5 text-indigo-700 font-bold text-xs">
+                <Target className="w-4 h-4 text-indigo-600 shrink-0" />
+                <span>📌 과제 배경 및 목적</span>
+              </div>
+              <p className="text-slate-700 leading-relaxed text-xs pt-0.5">
+                {project.background}
+              </p>
+            </div>
+
+            <div className="bg-white p-3.5 rounded-2xl border border-slate-200/80 space-y-1 shadow-2xs">
+              <div className="flex items-center gap-1.5 text-emerald-700 font-bold text-xs">
+                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                <span>🎯 과제 목표 및 기대효과</span>
+              </div>
+              <p className="text-slate-700 leading-relaxed text-xs pt-0.5">
+                {project.target}
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+              <div className="bg-white p-3 rounded-2xl border border-slate-200/80 space-y-1 shadow-2xs">
+                <div className="flex items-center gap-1.5 text-amber-700 font-bold text-xs">
+                  <Calendar className="w-4 h-4 text-amber-600 shrink-0" />
+                  <span>📅 수행 기간</span>
+                </div>
+                <p className="text-slate-800 font-extrabold text-xs pt-0.5">
+                  {project.period}
+                </p>
+              </div>
+
+              <div className="bg-white p-3 rounded-2xl border border-slate-200/80 space-y-1 shadow-2xs">
+                <div className="flex items-center gap-1.5 text-purple-700 font-bold text-xs">
+                  <Code2 className="w-4 h-4 text-purple-600 shrink-0" />
+                  <span>🛠️ 주요 적용 기술 / 모듈</span>
+                </div>
+                <p className="text-slate-800 font-extrabold text-xs pt-0.5">
+                  {project.techStack}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Submission Feedback or Prompt */}
+          {isSubmitted ? (
+            <div className="p-4 rounded-2xl bg-emerald-50 border-2 border-emerald-500/40 text-center space-y-1.5 animate-fadeIn mt-2">
+              <div className="w-10 h-10 rounded-full bg-emerald-100 text-emerald-600 mx-auto flex items-center justify-center shadow-xs">
+                <CheckCircle2 className="w-6 h-6" />
+              </div>
+              <h4 className="text-sm sm:text-base font-black text-emerald-900">
+                과제지도 신청이 접수되었습니다.
+              </h4>
+              <p className="text-xs text-emerald-700">
+                신청자: <strong>{currentUser} 프로</strong> 님 ({project.assignee} 프로 과제 지도 매칭 완료)
+              </p>
+            </div>
+          ) : (
+            <div className="p-3 rounded-2xl bg-indigo-50/80 border border-indigo-200 text-center space-y-0.5 mt-2">
+              <p className="text-xs font-bold text-indigo-900">
+                과제 지도 신청 안내
+              </p>
+              <p className="text-[11px] text-slate-600">
+                과제지도자로 참여시 한 달간 주기적 멘토링이 지원되며 수석 마스터 평가 가점이 부여됩니다.
+              </p>
+            </div>
+          )}
+        </div>
+
+        {/* Footer Buttons */}
+        <div className="p-3.5 bg-slate-50 border-t border-slate-200 flex items-center justify-end gap-2.5 shrink-0">
+          {isSubmitted ? (
+            <button
+              onClick={onClose}
+              className="w-full sm:w-auto px-7 py-2.5 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs rounded-xl shadow-xs transition-all cursor-pointer"
+            >
+              확인 및 닫기
+            </button>
+          ) : (
+            <>
+              <button
+                onClick={onClose}
+                className="px-4 py-2.5 rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-xs transition-all cursor-pointer"
+              >
+                취소
+              </button>
+              <button
+                onClick={handleApplyClick}
+                className="flex-1 sm:flex-initial px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white font-black text-xs rounded-xl shadow-md shadow-indigo-600/20 transition-all cursor-pointer flex items-center justify-center gap-1.5"
+              >
+                <UserPlus className="w-4 h-4" />
+                <span>과제지도를 신청하시겠습니까?</span>
+              </button>
+            </>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// ==========================================
+// PROJECT MENTORING LIST MODAL
+// ==========================================
+
+interface ProjectMentoringModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  initialModule?: ModuleId | null;
+  currentUser: UserName;
+  projects: ProjectItem[];
+  onApplyMentor: (projectId: number) => void;
+}
+
+export const ProjectMentoringModal: React.FC<ProjectMentoringModalProps> = ({
+  isOpen,
+  onClose,
+  initialModule = null,
+  currentUser,
+  projects,
+  onApplyMentor,
+}) => {
+  const [activeCategory, setActiveCategory] = useState<'전체' | '제조직군' | '비제조직군'>('전체');
+  const [selectedModule, setSelectedModule] = useState<ModuleId | 'ALL'>(initialModule || 'ALL');
+  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [selectedSpecProject, setSelectedSpecProject] = useState<ProjectItem | null>(null);
+  const [appliedProjectIds, setAppliedProjectIds] = useState<number[]>([]);
+
+  useEffect(() => {
+    if (initialModule) {
+      setSelectedModule(initialModule);
+    } else {
+      setSelectedModule('ALL');
+    }
+  }, [initialModule, isOpen]);
+
+  if (!isOpen) return null;
+
+  const manufacturingCount = projects.filter((p) => p.category === '제조직군').length;
+  const nonManufacturingCount = projects.filter((p) => p.category === '비제조직군').length;
+
+  const filteredProjects = projects.filter((p) => {
+    if (activeCategory === '제조직군' && p.category !== '제조직군') return false;
+    if (activeCategory === '비제조직군' && p.category !== '비제조직군') return false;
+    if (selectedModule !== 'ALL' && p.module !== selectedModule) return false;
+
+    if (searchQuery.trim()) {
+      const q = searchQuery.toLowerCase();
+      const matchTitle = p.title.toLowerCase().includes(q);
+      const matchAssignee = p.assignee.toLowerCase().includes(q);
+      const matchDept = p.department.toLowerCase().includes(q);
+      const matchMentor = p.mentor.toLowerCase().includes(q);
+      const matchModule = p.module.toLowerCase().includes(q);
+      return matchTitle || matchAssignee || matchDept || matchMentor || matchModule;
+    }
+
+    return true;
+  });
+
+  const handleConfirmApply = (projectId: number) => {
+    onApplyMentor(projectId);
+    setAppliedProjectIds((prev) => [...prev, projectId]);
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-slate-900/60 backdrop-blur-xs animate-fadeIn">
+      <div className="bg-white rounded-3xl border border-slate-200 shadow-2xl max-w-5xl w-full max-h-[92vh] flex flex-col overflow-hidden">
+        {/* Header */}
+        <div className="bg-slate-900 text-white p-4 sm:p-5 flex items-center justify-between border-b border-slate-800 shrink-0">
+          <div className="flex items-center gap-3">
+            <div className="p-2.5 bg-gradient-to-br from-indigo-500 to-indigo-700 rounded-2xl border border-indigo-400/30 text-indigo-200 shadow-md">
+              <FileText className="w-6 h-6" />
+            </div>
+            <div>
+              <h2 className="text-base sm:text-xl font-black text-white leading-tight">
+                GDX 과제지도 알아보기 및 지도 신청
+              </h2>
+            </div>
+          </div>
+          <button
+            onClick={onClose}
+            className="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white transition-colors cursor-pointer"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+
+        {/* Filter Controls */}
+        <div className="p-3.5 bg-slate-50/90 border-b border-slate-200 shrink-0 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5">
+          {/* Category Tabs */}
+          <div className="flex items-center gap-1 bg-slate-200/80 p-1 rounded-2xl border border-slate-300/60 text-xs font-bold">
+            <button
+              onClick={() => setActiveCategory('전체')}
+              className={`px-3.5 py-1.5 rounded-xl transition-all cursor-pointer ${
+                activeCategory === '전체'
+                  ? 'bg-white text-slate-900 shadow-xs'
+                  : 'text-slate-600 hover:text-slate-900'
+              }`}
+            >
+              전체
+            </button>
+            <button
+              onClick={() => setActiveCategory('제조직군')}
+              className={`px-3.5 py-1.5 rounded-xl transition-all cursor-pointer ${
+                activeCategory === '제조직군'
+                  ? 'bg-emerald-600 text-white shadow-xs'
+                  : 'text-slate-600 hover:text-slate-900'
+              }`}
+            >
+              <span>제조직군</span>
+            </button>
+            <button
+              onClick={() => setActiveCategory('비제조직군')}
+              className={`px-3.5 py-1.5 rounded-xl transition-all cursor-pointer ${
+                activeCategory === '비제조직군'
+                  ? 'bg-indigo-600 text-white shadow-xs'
+                  : 'text-slate-600 hover:text-slate-900'
+              }`}
+            >
+              <span>비제조직군</span>
+            </button>
+          </div>
+
+          {/* Active Module Filter Indicator & Search input */}
+          <div className="flex items-center gap-2 flex-1 sm:flex-initial">
+            {selectedModule !== 'ALL' && (
+              <div className="flex items-center gap-1.5 bg-indigo-50 text-indigo-800 px-2.5 py-1.5 rounded-xl font-bold text-xs border border-indigo-200">
+                <span>모듈: {selectedModule}</span>
+                <button
+                  onClick={() => setSelectedModule('ALL')}
+                  className="p-0.5 hover:bg-indigo-100 rounded-lg transition-colors cursor-pointer text-indigo-600"
+                  title="전체 모듈 보기"
+                >
+                  <X className="w-3.5 h-3.5" />
+                </button>
+              </div>
+            )}
+
+            <div className="relative flex-1 sm:w-64">
+              <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+              <input
+                type="text"
+                placeholder="과제명, 담당자, 부서 검색..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full bg-white border border-slate-300 text-slate-800 text-xs rounded-xl pl-8 pr-3 py-2 outline-none focus:ring-2 focus:ring-indigo-500 placeholder:text-slate-400"
+              />
+              {searchQuery && (
+                <button
+                  onClick={() => setSearchQuery('')}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+                >
+                  <X className="w-3.5 h-3.5" />
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* Project Table List */}
+        <div className="flex-1 overflow-y-auto p-4 space-y-3">
+          {filteredProjects.length === 0 ? (
+            <div className="p-12 text-center space-y-2">
+              <FileText className="w-10 h-10 text-slate-300 mx-auto" />
+              <p className="text-sm font-bold text-slate-600">검색된 과제가 없습니다.</p>
+              <p className="text-xs text-slate-400">필터 조건을 변경하거나 검색어를 확인해주세요.</p>
+            </div>
+          ) : (
+            <div className="border border-slate-200 rounded-2xl overflow-hidden shadow-xs bg-white">
+              <div className="overflow-x-auto">
+                <table className="w-full text-left border-collapse text-xs">
+                  <thead>
+                    <tr className="bg-slate-100/80 text-slate-700 font-bold border-b border-slate-200 uppercase tracking-wider text-[11px]">
+                      <th className="py-3 px-3.5 w-10 text-center">#</th>
+                      <th className="py-3 px-3.5 min-w-[240px]">과제명</th>
+                      <th className="py-3 px-3.5 w-28">담당자</th>
+                      <th className="py-3 px-3.5 w-32">담당부서</th>
+                      <th className="py-3 px-3.5 w-28">현재 진행 상황</th>
+                      <th className="py-3 px-3.5 min-w-[190px] text-center">과제지도자</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-100 text-slate-800">
+                    {filteredProjects.map((project, idx) => {
+                      const isNeedsMentor = project.needsMentor;
+                      const isApplied = appliedProjectIds.includes(project.id) || project.mentor.includes(currentUser);
+
+                      return (
+                        <tr
+                          key={project.id}
+                          className="hover:bg-indigo-50/30 transition-colors group"
+                        >
+                          <td className="py-3.5 px-3.5 text-center font-semibold text-slate-400">
+                            {idx + 1}
+                          </td>
+                          <td className="py-3.5 px-3.5">
+                            <div className="flex flex-col gap-1">
+                              <div className="flex items-center gap-1.5 flex-wrap">
+                                <span
+                                  className={`text-[9px] font-bold px-1.5 py-0.2 rounded border ${
+                                    project.category === '제조직군'
+                                      ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                                      : 'bg-indigo-50 text-indigo-700 border-indigo-200'
+                                  }`}
+                                >
+                                  {project.category}
+                                </span>
+                                <span className="text-[10px] font-medium text-slate-500 bg-slate-100 px-1.5 py-0.2 rounded border border-slate-200">
+                                  {project.module}
+                                </span>
+                              </div>
+                              <span className="font-extrabold text-slate-900 group-hover:text-indigo-800 text-xs sm:text-sm leading-snug">
+                                {project.title}
+                              </span>
+                            </div>
+                          </td>
+                          <td className="py-3.5 px-3.5 font-bold text-slate-800 whitespace-nowrap">
+                            {project.assignee} 프로
+                          </td>
+                          <td className="py-3.5 px-3.5 text-slate-600 font-medium">
+                            {project.department}
+                          </td>
+                          <td className="py-3.5 px-3.5 whitespace-nowrap">
+                            <span
+                              className={`inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full border ${
+                                project.status === '진행중'
+                                  ? 'bg-blue-50 text-blue-700 border-blue-200'
+                                  : project.status === '기획'
+                                  ? 'bg-amber-50 text-amber-700 border-amber-200'
+                                  : project.status === '검증'
+                                  ? 'bg-purple-50 text-purple-700 border-purple-200'
+                                  : project.status === '완료예정'
+                                  ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                                  : 'bg-slate-100 text-slate-600 border-slate-200'
+                              }`}
+                            >
+                              <Clock className="w-3 h-3" />
+                              {project.status}
+                            </span>
+                          </td>
+                          <td className="py-3.5 px-3.5 text-center whitespace-nowrap">
+                            {isNeedsMentor ? (
+                              <div className="flex items-center justify-center gap-1.5">
+                                <span className="text-[10px] font-bold text-amber-800 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded-lg shrink-0">
+                                  과제지도자 구함
+                                </span>
+                                <button
+                                  onClick={() => setSelectedSpecProject(project)}
+                                  className="flex items-center gap-1 px-2.5 py-1 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs transition-all shadow-2xs cursor-pointer shrink-0"
+                                >
+                                  <UserPlus className="w-3.5 h-3.5" />
+                                  <span>과제지도 신청</span>
+                                </button>
+                              </div>
+                            ) : (
+                              <div className="inline-flex items-center gap-1 px-2.5 py-1 rounded-xl bg-slate-100 text-slate-800 font-bold border border-slate-200 shadow-2xs">
+                                <UserCheck className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                                <span>{project.mentor}</span>
+                                {isApplied && (
+                                  <span className="text-[9px] font-bold text-emerald-600 bg-emerald-50 px-1 rounded ml-0.5">
+                                    (신청완료)
+                                  </span>
+                                )}
+                              </div>
+                            )}
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Modal Footer */}
+        <div className="p-3.5 bg-slate-50 border-t border-slate-200 flex items-center justify-between shrink-0">
+          <p className="text-xs text-slate-500 font-medium hidden sm:block">
+            💡 과제지도를 신청하시면 사무국에서 과제담당자의 의견을 수렴하여 매칭여부를 회신 드립니다.
+          </p>
+          <button
+            onClick={onClose}
+            className="px-6 py-2 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs rounded-xl cursor-pointer transition-all ml-auto"
+          >
+            닫기
+          </button>
+        </div>
+      </div>
+
+      {/* Project Spec Popup (과제기술서 정보 팝업) */}
+      {selectedSpecProject && (
+        <ProjectSpecModal
+          project={selectedSpecProject}
+          currentUser={currentUser}
+          onClose={() => setSelectedSpecProject(null)}
+          onConfirmApply={(pId) => {
+            handleConfirmApply(pId);
+          }}
+        />
+      )}
+    </div>
+  );
+};
+
+// ==========================================
 // BADGE MATRIX COMPONENT
 // ==========================================
 
@@ -992,12 +2500,14 @@ interface BadgeMatrixProps {
   currentUser: UserName;
   onOpenCriteria: () => void;
   onSelectModule: (id: ModuleId) => void;
+  onOpenProjectMentoring: (moduleId?: ModuleId) => void;
 }
 
 export const BadgeMatrix: React.FC<BadgeMatrixProps> = ({
   currentUser,
   onOpenCriteria,
   onSelectModule,
+  onOpenProjectMentoring,
 }) => {
   const activeModules = getUserModules(currentUser);
   const reqs = getPromotionRequirements(currentUser);
@@ -1020,18 +2530,28 @@ export const BadgeMatrix: React.FC<BadgeMatrixProps> = ({
                 </h2>
               </div>
               <p className="text-[11px] text-slate-500">
-                각 모듈별 배지 획득 현황(G2/G3 기준선)을 확인하고 바로 수강신청할 수 있습니다.
+                각 모듈별 배지 획득 현황(G2/G3 기준선)을 확인하고 수강신청 및 과제지도를 알아볼 수 있습니다.
               </p>
             </div>
           </div>
 
-          <button
-            onClick={onOpenCriteria}
-            className="flex items-center gap-1 px-3 py-1 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 text-xs font-bold transition-all cursor-pointer shadow-2xs"
-          >
-            <ShieldCheck className="w-3.5 h-3.5 text-indigo-600" />
-            <span>G2/G3 필수 기준선 상세 보기</span>
-          </button>
+          <div className="flex items-center gap-2 flex-wrap">
+            <button
+              onClick={() => onOpenProjectMentoring()}
+              className="flex items-center gap-1 px-3 py-1 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all cursor-pointer shadow-2xs"
+            >
+              <FileText className="w-3.5 h-3.5 text-amber-400" />
+              <span>과제지도 현황</span>
+            </button>
+
+            <button
+              onClick={onOpenCriteria}
+              className="flex items-center gap-1 px-3 py-1 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 text-xs font-bold transition-all cursor-pointer shadow-2xs"
+            >
+              <ShieldCheck className="w-3.5 h-3.5 text-indigo-600" />
+              <span>G2/G3 필수 기준선 상세 보기</span>
+            </button>
+          </div>
         </div>
 
         {/* Promotion Status Progress Banner */}
@@ -1203,7 +2723,7 @@ export const BadgeMatrix: React.FC<BadgeMatrixProps> = ({
                 </div>
               </div>
 
-              {/* Requirement Summary & Direct Enrollment Button */}
+              {/* Requirement Summary & Dual Action Buttons */}
               <div className="flex flex-col gap-1.5 pt-0.5">
                 <div className="flex items-center justify-between text-[10px] text-slate-500 px-0.5">
                   <div className="flex items-center gap-1 font-semibold flex-wrap">
@@ -1235,15 +2755,26 @@ export const BadgeMatrix: React.FC<BadgeMatrixProps> = ({
                   </div>
                 </div>
 
-                {/* Enrollment Button */}
-                <button
-                  onClick={() => onSelectModule(moduleId)}
-                  className="w-full flex items-center justify-center gap-1.5 py-2 px-3 bg-slate-800 hover:bg-slate-900 active:bg-slate-950 text-slate-100 border border-slate-700/50 rounded-xl text-xs font-bold transition-all shadow-2xs hover:shadow-sm cursor-pointer group/btn"
-                >
-                  <GraduationCap className="w-3.5 h-3.5 text-indigo-300 group-hover/btn:text-indigo-200" />
-                  <span>수강신청 알아보기</span>
-                  <ChevronRight className="w-3.5 h-3.5 text-indigo-300 group-hover/btn:text-indigo-200 group-hover/btn:translate-x-0.5 transition-transform" />
-                </button>
+                {/* Dual Action Buttons */}
+                <div className="grid grid-cols-2 gap-1.5 pt-0.5">
+                  <button
+                    onClick={() => onSelectModule(moduleId)}
+                    className="flex items-center justify-center gap-1 py-1.5 px-2 bg-slate-800 hover:bg-slate-900 active:bg-slate-950 text-slate-100 border border-slate-700/50 rounded-xl text-[11px] font-bold transition-all shadow-2xs hover:shadow-sm cursor-pointer group/btn"
+                    title="수강신청 알아보기"
+                  >
+                    <GraduationCap className="w-3.5 h-3.5 text-indigo-300 group-hover/btn:text-indigo-200 shrink-0" />
+                    <span className="truncate">수강신청 알아보기</span>
+                  </button>
+
+                  <button
+                    onClick={() => onOpenProjectMentoring(moduleId)}
+                    className="flex items-center justify-center gap-1 py-1.5 px-2 bg-indigo-50 hover:bg-indigo-100 active:bg-indigo-200 text-indigo-700 border border-indigo-200/80 rounded-xl text-[11px] font-bold transition-all shadow-2xs hover:shadow-sm cursor-pointer group/btn"
+                    title="과제지도 알아보기"
+                  >
+                    <FileText className="w-3.5 h-3.5 text-indigo-600 group-hover/btn:text-indigo-700 shrink-0" />
+                    <span className="truncate">과제지도 알아보기</span>
+                  </button>
+                </div>
               </div>
             </div>
           );
@@ -1826,6 +3357,9 @@ export default function App() {
   const [currentUser, setCurrentUser] = useState<UserName>('박지성');
   const [activeModule, setActiveModule] = useState<ModuleId | null>(null);
   const [isCriteriaOpen, setIsCriteriaOpen] = useState<boolean>(false);
+  const [isMentoringModalOpen, setIsMentoringModalOpen] = useState<boolean>(false);
+  const [mentoringTargetModule, setMentoringTargetModule] = useState<ModuleId | null>(null);
+  const [projects, setProjects] = useState<ProjectItem[]>(INITIAL_PROJECTS);
 
   useEffect(() => {
     const randomIndex = Math.floor(Math.random() * USERS.length);
@@ -1836,6 +3370,26 @@ export default function App() {
     const availableUsers = USERS.map((u) => u.name);
     const randomIndex = Math.floor(Math.random() * availableUsers.length);
     setCurrentUser(availableUsers[randomIndex]);
+  };
+
+  const handleOpenProjectMentoring = (moduleId?: ModuleId) => {
+    setMentoringTargetModule(moduleId || null);
+    setIsMentoringModalOpen(true);
+  };
+
+  const handleApplyMentor = (projectId: number) => {
+    setProjects((prev) =>
+      prev.map((p) => {
+        if (p.id === projectId) {
+          return {
+            ...p,
+            mentor: `${currentUser} 프로`,
+            needsMentor: false,
+          };
+        }
+        return p;
+      })
+    );
   };
 
   return (
@@ -1862,6 +3416,7 @@ export default function App() {
               currentUser={currentUser}
               onOpenCriteria={() => setIsCriteriaOpen(true)}
               onSelectModule={(id) => setActiveModule(id)}
+              onOpenProjectMentoring={handleOpenProjectMentoring}
             />
           </section>
         </main>
@@ -1871,6 +3426,15 @@ export default function App() {
         isOpen={isCriteriaOpen}
         onClose={() => setIsCriteriaOpen(false)}
         currentUser={currentUser}
+      />
+
+      <ProjectMentoringModal
+        isOpen={isMentoringModalOpen}
+        onClose={() => setIsMentoringModalOpen(false)}
+        initialModule={mentoringTargetModule}
+        currentUser={currentUser}
+        projects={projects}
+        onApplyMentor={handleApplyMentor}
       />
     </div>
   );
