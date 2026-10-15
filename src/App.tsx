@@ -40,6 +40,7 @@ import {
   Building2,
   Clock,
   Briefcase,
+  ExternalLink,
 } from 'lucide-react';
 
 // ==========================================
@@ -112,7 +113,7 @@ export const USERS: {
   { name: '이영표', role: '책임 엔지니어 (G2)', dept: '스마트 팩토리팀', avatarBg: 'bg-blue-600', group: '그룹1 (일반/공정)', jobCategory: '제조직군' },
   { name: '손흥민', role: '주임 연구원 (G1)', dept: '공정 데이터 분석팀', avatarBg: 'bg-amber-600', group: '그룹1 (일반/공정)', jobCategory: '제조직군' },
   { name: '류현진', role: '책임 데이터분석가 (G2)', dept: 'AI 데이터랩', avatarBg: 'bg-indigo-600', group: '그룹2 (AI/데이터)', jobCategory: '비제조 직군' },
-  { name: '박찬호', role: '수석 마스터 (G3)', dept: 'GDX 아카데미', avatarBg: 'bg-rose-600', group: '그룹2 (AI/데이터)', jobCategory: '비제조 직군' },
+  { name: '박찬호', role: '수석 마스터 (G3)', dept: 'AXAGE 아카데미', avatarBg: 'bg-rose-600', group: '그룹2 (AI/데이터)', jobCategory: '비제조 직군' },
 ];
 
 export const MODULE_ORDER: ModuleId[] = [
@@ -1773,7 +1774,7 @@ export const PromotionCriteriaModal: React.FC<PromotionCriteriaModalProps> = ({
             </div>
             <div>
               <h2 className="text-lg font-bold text-white leading-tight">
-                GDX 직급별 (G2/G3) 필수 배지 승격 기준 안내
+                AXAGE 직급별 (G2/G3) 필수 배지 승격 기준 안내
               </h2>
               <p className="text-xs text-slate-400">
                 직급 승격을 위한 트랙별(그룹1 / 그룹2) 필수 배지 요구사항
@@ -1952,14 +1953,14 @@ export const Header: React.FC<HeaderProps> = ({
           <div>
             <div className="flex items-center gap-2">
               <h1 className="text-base md:text-lg font-black tracking-tight text-white leading-none">
-                GDX 아카데미
+                AXAGE 아카데미
               </h1>
               <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-indigo-500/30 text-indigo-300 border border-indigo-400/30">
                 수강 신청 및 배지 현황
               </span>
             </div>
             <p className="text-[11px] text-slate-400 hidden lg:block mt-0.5">
-              코오롱 GDX 모듈별 배지 현황 & G1/G2/G3 직급 승격 기준선 관리
+              코오롱 AXAGE 모듈별 배지 현황 & G1/G2/G3 직급 승격 기준선 관리
             </p>
           </div>
         </div>
@@ -2048,7 +2049,7 @@ export const ProjectSpecModal: React.FC<ProjectSpecModalProps> = ({
             </div>
             <div className="min-w-0">
               <span className="text-[10px] font-bold text-indigo-300 uppercase tracking-wider block">
-                GDX 과제기술서 상세
+                AXAGE 과제기술서 상세
               </span>
               <h3 className="text-sm sm:text-base font-black text-white leading-snug truncate">
                 {project.title}
@@ -2263,7 +2264,7 @@ export const ProjectMentoringModal: React.FC<ProjectMentoringModalProps> = ({
             </div>
             <div>
               <h2 className="text-base sm:text-xl font-black text-white leading-tight">
-                GDX 과제지도 알아보기 및 지도 신청
+                AXAGE 과제지도 알아보기 및 지도 신청
               </h2>
             </div>
           </div>
@@ -2493,6 +2494,336 @@ export const ProjectMentoringModal: React.FC<ProjectMentoringModalProps> = ({
 };
 
 // ==========================================
+// EXAM ELIGIBILITY DATA & MODAL (AXAGE 시험응시 가능목록 확인)
+// ==========================================
+
+export interface ExamEligibilityItem {
+  id: string;
+  module: ModuleId;
+  targetBadgeName: string;
+  targetBadgeLevel: BadgeLevel;
+  completionDate: string; // 교육수료일자
+  deadlineDate: string;   // 응시가능기한
+  remainingDays: number;  // 응시가능한 남은 일자
+  courseFormat: '온라인' | '오프라인 집체';
+  examTitle: string;
+  examUrl: string;
+}
+
+export const USER_EXAM_ELIGIBILITIES: Record<UserName, ExamEligibilityItem[]> = {
+  박지성: [
+    {
+      id: 'exam-pjs-1',
+      module: '머신러닝 이론',
+      targetBadgeName: '녹색 배지 (Green)',
+      targetBadgeLevel: 2,
+      completionDate: '2026.09.28',
+      deadlineDate: '2026.10.28',
+      remainingDays: 14,
+      courseFormat: '온라인',
+      examTitle: '머신러닝 이론 기초 역량 인증 평가',
+      examUrl: 'https://test15-beryl-eight.vercel.app/',
+    },
+    {
+      id: 'exam-pjs-2',
+      module: '탐색적데이터분석',
+      targetBadgeName: '녹색 배지 (Green)',
+      targetBadgeLevel: 2,
+      completionDate: '2026.10.05',
+      deadlineDate: '2026.11.04',
+      remainingDays: 21,
+      courseFormat: '오프라인 집체',
+      examTitle: '탐색적 데이터 분석(EDA) 실기 평가',
+      examUrl: 'https://test15-beryl-eight.vercel.app/',
+    },
+  ],
+  손흥민: [
+    {
+      id: 'exam-shm-1',
+      module: '머신러닝 이론',
+      targetBadgeName: '녹색 배지 (Green)',
+      targetBadgeLevel: 2,
+      completionDate: '2026.09.25',
+      deadlineDate: '2026.10.25',
+      remainingDays: 11,
+      courseFormat: '온라인',
+      examTitle: '머신러닝 이론 핵심 역량 인증 평가',
+      examUrl: 'https://test15-beryl-eight.vercel.app/',
+    },
+    {
+      id: 'exam-shm-2',
+      module: '바이브코딩',
+      targetBadgeName: '녹색 배지 (Green)',
+      targetBadgeLevel: 2,
+      completionDate: '2026.10.02',
+      deadlineDate: '2026.11.01',
+      remainingDays: 18,
+      courseFormat: '오프라인 집체',
+      examTitle: '바이브코딩 프롬프트 실무 인증 평가',
+      examUrl: 'https://test15-beryl-eight.vercel.app/',
+    },
+  ],
+  이영표: [
+    {
+      id: 'exam-lyp-1',
+      module: '머신러닝 모델링',
+      targetBadgeName: '녹색 배지 (Green)',
+      targetBadgeLevel: 2,
+      completionDate: '2026.10.08',
+      deadlineDate: '2026.11.07',
+      remainingDays: 24,
+      courseFormat: '오프라인 집체',
+      examTitle: '머신러닝 모델링 심화 알고리즘 평가',
+      examUrl: 'https://test15-beryl-eight.vercel.app/',
+    },
+    {
+      id: 'exam-lyp-2',
+      module: '시각화',
+      targetBadgeName: '녹색 배지 (Green)',
+      targetBadgeLevel: 2,
+      completionDate: '2026.09.30',
+      deadlineDate: '2026.10.30',
+      remainingDays: 16,
+      courseFormat: '온라인',
+      examTitle: 'Tableau 시각화 및 대시보드 실기 평가',
+      examUrl: 'https://test15-beryl-eight.vercel.app/',
+    },
+  ],
+  류현진: [
+    {
+      id: 'exam-rhj-1',
+      module: 'AI Automation',
+      targetBadgeName: '검정 배지 (Black)',
+      targetBadgeLevel: 3,
+      completionDate: '2026.10.04',
+      deadlineDate: '2026.11.03',
+      remainingDays: 20,
+      courseFormat: '온라인',
+      examTitle: 'AI Automation 업무 자동화 마스터 평가',
+      examUrl: 'https://test15-beryl-eight.vercel.app/',
+    },
+    {
+      id: 'exam-rhj-2',
+      module: '머신러닝 이론',
+      targetBadgeName: '검정 배지 (Black)',
+      targetBadgeLevel: 3,
+      completionDate: '2026.09.22',
+      deadlineDate: '2026.10.22',
+      remainingDays: 8,
+      courseFormat: '오프라인 집체',
+      examTitle: '머신러닝 고급 알고리즘 마스터 시험',
+      examUrl: 'https://test15-beryl-eight.vercel.app/',
+    },
+  ],
+  박찬호: [
+    {
+      id: 'exam-pch-1',
+      module: '머신러닝 모델링',
+      targetBadgeName: '검정 배지 (Black)',
+      targetBadgeLevel: 3,
+      completionDate: '2026.10.01',
+      deadlineDate: '2026.10.31',
+      remainingDays: 17,
+      courseFormat: '오프라인 집체',
+      examTitle: '머신러닝 모델링 전문가 실기 인증',
+      examUrl: 'https://test15-beryl-eight.vercel.app/',
+    },
+    {
+      id: 'exam-pch-2',
+      module: '시각화',
+      targetBadgeName: '골드크라운 (Gold Crown)',
+      targetBadgeLevel: 5,
+      completionDate: '2026.09.20',
+      deadlineDate: '2026.10.20',
+      remainingDays: 6,
+      courseFormat: '온라인',
+      examTitle: 'AXAGE 최고전문가 시각화 실기 평가',
+      examUrl: 'https://test15-beryl-eight.vercel.app/',
+    },
+  ],
+};
+
+interface ExamEligibilityModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  currentUser: UserName;
+}
+
+export const ExamEligibilityModal: React.FC<ExamEligibilityModalProps> = ({
+  isOpen,
+  onClose,
+  currentUser,
+}) => {
+  if (!isOpen) return null;
+
+  const exams = USER_EXAM_ELIGIBILITIES[currentUser] || [];
+  const userObj = USERS.find((u) => u.name === currentUser);
+
+  return (
+    <div className="fixed inset-0 z-60 flex items-center justify-center p-3 sm:p-5 bg-slate-950/70 backdrop-blur-xs animate-fadeIn">
+      <div className="bg-white rounded-3xl border border-slate-200 shadow-2xl max-w-2xl w-full max-h-[92vh] flex flex-col overflow-hidden">
+        {/* Header */}
+        <div className="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white p-4 sm:p-5 flex items-center justify-between border-b border-slate-800 shrink-0">
+          <div className="flex items-center gap-3 min-w-0">
+            <div className="p-2.5 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-2xl shadow-md text-white shrink-0 border border-emerald-400/30">
+              <GraduationCap className="w-5 h-5 sm:w-6 sm:h-6" />
+            </div>
+            <div className="min-w-0">
+              <div className="flex items-center gap-2 flex-wrap">
+                <h3 className="text-base sm:text-lg font-black text-white leading-tight">
+                  AXAGE 시험응시 가능목록 확인
+                </h3>
+                <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-400/30">
+                  응시 가능 {exams.length}건
+                </span>
+              </div>
+              <p className="text-xs text-slate-300 mt-0.5 truncate">
+                {currentUser} 님 ({userObj?.role} · {userObj?.dept})의 미취득 모듈 시험응시 가능 목록입니다.
+              </p>
+            </div>
+          </div>
+          <button
+            onClick={onClose}
+            className="p-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white transition-colors cursor-pointer shrink-0 ml-2"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+
+        {/* Sync Notice Banner */}
+        <div className="bg-indigo-50/90 border-b border-indigo-100 px-4 py-2.5 flex items-start gap-2.5 shrink-0 text-xs text-indigo-900">
+          <Sparkles className="w-4 h-4 text-indigo-600 shrink-0 mt-0.5" />
+          <div className="leading-relaxed">
+            <span className="font-bold">test14 - test15 모듈 일치 연계: </span>
+            <span>
+              본 앱의 13개 교육 모듈과 <span className="font-semibold text-indigo-700">test15 시험응시 시스템</span>의 응시 모듈이 1:1로 일치하도록 구성되어 있습니다. '응시하기'를 누르면 test15 앱으로 즉시 연결됩니다.
+            </span>
+          </div>
+        </div>
+
+        {/* Modal Body */}
+        <div className="p-4 sm:p-5 overflow-y-auto space-y-3.5 flex-1 bg-slate-50/50">
+          {exams.length === 0 ? (
+            <div className="text-center py-10 bg-white rounded-2xl border border-slate-200 shadow-2xs">
+              <CheckCircle2 className="w-10 h-10 text-emerald-500 mx-auto mb-2" />
+              <p className="text-sm font-bold text-slate-700">현재 응시 가능한 미취득 모듈이 없습니다.</p>
+              <p className="text-xs text-slate-500 mt-1">모든 대상 교육 모듈의 배지를 이미 취득하였거나 수강 진행 중입니다.</p>
+            </div>
+          ) : (
+            exams.map((exam) => {
+              const isUrgent = exam.remainingDays <= 7;
+              return (
+                <div
+                  key={exam.id}
+                  className="bg-white rounded-2xl border border-slate-200 hover:border-indigo-300 shadow-xs hover:shadow-md transition-all p-4 flex flex-col gap-3 relative overflow-hidden group"
+                >
+                  {/* Subtle top indicator bar */}
+                  <div
+                    className={`absolute top-0 left-0 right-0 h-1 ${
+                      isUrgent ? 'bg-rose-500' : 'bg-emerald-500'
+                    }`}
+                  />
+
+                  {/* Title & Target Badge & D-Day */}
+                  <div className="flex items-start justify-between gap-3 pt-1">
+                    <div className="flex items-center gap-2.5 min-w-0">
+                      <div className="w-10 h-10 rounded-xl bg-slate-100 group-hover:bg-indigo-50 flex items-center justify-center shrink-0 border border-slate-200 group-hover:border-indigo-200 transition-colors">
+                        <Award className="w-5 h-5 text-indigo-600" />
+                      </div>
+                      <div className="min-w-0">
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <h4 className="text-base font-black text-slate-900 group-hover:text-indigo-600 transition-colors">
+                            {exam.module}
+                          </h4>
+                          <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-100 text-slate-700 border border-slate-200">
+                            {exam.courseFormat}
+                          </span>
+                          <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-50 text-amber-800 border border-amber-200">
+                            목표: {exam.targetBadgeName}
+                          </span>
+                        </div>
+                        <p className="text-xs text-slate-500 mt-0.5 truncate">
+                          {exam.examTitle}
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* D-Day badge */}
+                    <div
+                      className={`text-right shrink-0 px-2.5 py-1 rounded-xl border flex flex-col items-end ${
+                        isUrgent
+                          ? 'bg-rose-50 text-rose-700 border-rose-200'
+                          : 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                      }`}
+                    >
+                      <span className="text-xs font-black">
+                        D-{exam.remainingDays}
+                      </span>
+                      <span className="text-[10px] font-medium leading-tight">
+                        {exam.remainingDays}일 남음
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Dates Grid */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 bg-slate-50 p-2.5 rounded-xl border border-slate-100 text-xs">
+                    <div className="flex items-center gap-2 text-slate-600">
+                      <Calendar className="w-4 h-4 text-slate-400 shrink-0" />
+                      <div>
+                        <span className="text-slate-400 text-[10px] block font-medium">교육수료일자</span>
+                        <span className="font-bold text-slate-800">{exam.completionDate}</span>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2 text-slate-600">
+                      <Clock className="w-4 h-4 text-indigo-500 shrink-0" />
+                      <div>
+                        <span className="text-slate-400 text-[10px] block font-medium">응시가능기한</span>
+                        <span className="font-bold text-slate-800">
+                          {exam.deadlineDate} 까지
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Actions */}
+                  <div className="flex items-center justify-between pt-1 border-t border-slate-100 gap-2 flex-wrap">
+                    <span className="text-[11px] text-slate-400">
+                      {isUrgent ? '⚠️ 응시 기한 마감이 임박했습니다.' : '✅ 기한 내 온라인으로 응시 가능합니다.'}
+                    </span>
+                    <a
+                      href={`https://test15-beryl-eight.vercel.app/?module=${encodeURIComponent(exam.module)}&user=${encodeURIComponent(currentUser)}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white text-xs font-black shadow-xs hover:shadow-md transition-all cursor-pointer"
+                    >
+                      <span>응시하기</span>
+                      <ExternalLink className="w-3.5 h-3.5" />
+                    </a>
+                  </div>
+                </div>
+              );
+            })
+          )}
+        </div>
+
+        {/* Modal Footer */}
+        <div className="p-3.5 sm:p-4 bg-slate-50 border-t border-slate-200 flex items-center justify-between shrink-0">
+          <p className="text-xs text-slate-500 hidden sm:block">
+            💡 응시하기를 누르면 AXAGE 시험응시 시스템(test15-beryl-eight.vercel.app)으로 연결됩니다.
+          </p>
+          <button
+            onClick={onClose}
+            className="px-4 py-2 rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-800 text-xs font-bold transition-colors cursor-pointer ml-auto"
+          >
+            닫기
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// ==========================================
 // BADGE MATRIX COMPONENT
 // ==========================================
 
@@ -2501,6 +2832,7 @@ interface BadgeMatrixProps {
   onOpenCriteria: () => void;
   onSelectModule: (id: ModuleId) => void;
   onOpenProjectMentoring: (moduleId?: ModuleId) => void;
+  onOpenExamList: () => void;
 }
 
 export const BadgeMatrix: React.FC<BadgeMatrixProps> = ({
@@ -2508,6 +2840,7 @@ export const BadgeMatrix: React.FC<BadgeMatrixProps> = ({
   onOpenCriteria,
   onSelectModule,
   onOpenProjectMentoring,
+  onOpenExamList,
 }) => {
   const activeModules = getUserModules(currentUser);
   const reqs = getPromotionRequirements(currentUser);
@@ -2536,9 +2869,29 @@ export const BadgeMatrix: React.FC<BadgeMatrixProps> = ({
           </div>
 
           <div className="flex items-center gap-2 flex-wrap">
+            <a
+              href="https://test35-rho.vercel.app/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white text-xs font-bold transition-all cursor-pointer shadow-2xs hover:shadow-xs"
+              title="새 창에서 AXAGE 과제 등록 페이지로 이동"
+            >
+              <ExternalLink className="w-3.5 h-3.5 text-blue-200" />
+              <span>AXAGE 과제 등록 바로가기</span>
+            </a>
+
+            <button
+              onClick={onOpenExamList}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white text-xs font-bold transition-all cursor-pointer shadow-2xs hover:shadow-xs"
+              title="미취득 모듈 시험응시 가능 목록 및 D-Day 확인"
+            >
+              <GraduationCap className="w-3.5 h-3.5 text-amber-300" />
+              <span>AXAGE 시험응시 가능목록 확인</span>
+            </button>
+
             <button
               onClick={() => onOpenProjectMentoring()}
-              className="flex items-center gap-1 px-3 py-1 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all cursor-pointer shadow-2xs"
+              className="flex items-center gap-1 px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all cursor-pointer shadow-2xs"
             >
               <FileText className="w-3.5 h-3.5 text-amber-400" />
               <span>과제지도 현황</span>
@@ -2546,7 +2899,7 @@ export const BadgeMatrix: React.FC<BadgeMatrixProps> = ({
 
             <button
               onClick={onOpenCriteria}
-              className="flex items-center gap-1 px-3 py-1 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 text-xs font-bold transition-all cursor-pointer shadow-2xs"
+              className="flex items-center gap-1 px-3 py-1.5 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 text-xs font-bold transition-all cursor-pointer shadow-2xs"
             >
               <ShieldCheck className="w-3.5 h-3.5 text-indigo-600" />
               <span>G2/G3 필수 기준선 상세 보기</span>
@@ -2805,7 +3158,7 @@ export const ModuleGrid: React.FC<ModuleGridProps> = ({
       <div className="flex items-center justify-between border-b border-slate-100 pb-2 mb-2">
         <div>
           <h2 className="text-base md:text-lg font-bold text-slate-900 tracking-tight flex items-center gap-2">
-            <span>GDX 교육 과정 수강 신청</span>
+            <span>AXAGE 교육 과정 수강 신청</span>
             <span className="text-xs font-normal text-indigo-600 bg-indigo-50 px-2.5 py-0.5 rounded-full border border-indigo-200/60">
               클릭하여 신청 진행 ({currentUser} 님 대상 {activeModules.length}개 과목)
             </span>
@@ -3162,7 +3515,7 @@ export const CourseEnrollmentModal: React.FC<CourseEnrollmentModalProps> = ({
                     </div>
                     <div>
                       <span className="text-xs text-slate-400 font-medium block">
-                        GDX 전문강사
+                        AXAGE 전문강사
                       </span>
                       <span className="text-lg font-black text-slate-900 group-hover:text-emerald-700">
                         {instructor} 강사
@@ -3357,6 +3710,7 @@ export default function App() {
   const [currentUser, setCurrentUser] = useState<UserName>('박지성');
   const [activeModule, setActiveModule] = useState<ModuleId | null>(null);
   const [isCriteriaOpen, setIsCriteriaOpen] = useState<boolean>(false);
+  const [isExamModalOpen, setIsExamModalOpen] = useState<boolean>(false);
   const [isMentoringModalOpen, setIsMentoringModalOpen] = useState<boolean>(false);
   const [mentoringTargetModule, setMentoringTargetModule] = useState<ModuleId | null>(null);
   const [projects, setProjects] = useState<ProjectItem[]>(INITIAL_PROJECTS);
@@ -3417,6 +3771,7 @@ export default function App() {
               onOpenCriteria={() => setIsCriteriaOpen(true)}
               onSelectModule={(id) => setActiveModule(id)}
               onOpenProjectMentoring={handleOpenProjectMentoring}
+              onOpenExamList={() => setIsExamModalOpen(true)}
             />
           </section>
         </main>
@@ -3435,6 +3790,12 @@ export default function App() {
         currentUser={currentUser}
         projects={projects}
         onApplyMentor={handleApplyMentor}
+      />
+
+      <ExamEligibilityModal
+        isOpen={isExamModalOpen}
+        onClose={() => setIsExamModalOpen(false)}
+        currentUser={currentUser}
       />
     </div>
   );
