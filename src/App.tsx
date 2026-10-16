@@ -2522,7 +2522,7 @@ export const USER_EXAM_ELIGIBILITIES: Record<UserName, ExamEligibilityItem[]> = 
       remainingDays: 14,
       courseFormat: '온라인',
       examTitle: '머신러닝 이론 기초 역량 인증 평가',
-      examUrl: 'https://test15-beryl-eight.vercel.app/',
+      examUrl: 'https://test38-virid.vercel.app/',
     },
     {
       id: 'exam-pjs-2',
@@ -2534,7 +2534,7 @@ export const USER_EXAM_ELIGIBILITIES: Record<UserName, ExamEligibilityItem[]> = 
       remainingDays: 21,
       courseFormat: '오프라인 집체',
       examTitle: '탐색적 데이터 분석(EDA) 실기 평가',
-      examUrl: 'https://test15-beryl-eight.vercel.app/',
+      examUrl: 'https://test38-virid.vercel.app/',
     },
   ],
   손흥민: [
@@ -2548,7 +2548,7 @@ export const USER_EXAM_ELIGIBILITIES: Record<UserName, ExamEligibilityItem[]> = 
       remainingDays: 11,
       courseFormat: '온라인',
       examTitle: '머신러닝 이론 핵심 역량 인증 평가',
-      examUrl: 'https://test15-beryl-eight.vercel.app/',
+      examUrl: 'https://test38-virid.vercel.app/',
     },
     {
       id: 'exam-shm-2',
@@ -2560,7 +2560,7 @@ export const USER_EXAM_ELIGIBILITIES: Record<UserName, ExamEligibilityItem[]> = 
       remainingDays: 18,
       courseFormat: '오프라인 집체',
       examTitle: '바이브코딩 프롬프트 실무 인증 평가',
-      examUrl: 'https://test15-beryl-eight.vercel.app/',
+      examUrl: 'https://test38-virid.vercel.app/',
     },
   ],
   이영표: [
@@ -2574,7 +2574,7 @@ export const USER_EXAM_ELIGIBILITIES: Record<UserName, ExamEligibilityItem[]> = 
       remainingDays: 24,
       courseFormat: '오프라인 집체',
       examTitle: '머신러닝 모델링 심화 알고리즘 평가',
-      examUrl: 'https://test15-beryl-eight.vercel.app/',
+      examUrl: 'https://test38-virid.vercel.app/',
     },
     {
       id: 'exam-lyp-2',
@@ -2586,7 +2586,7 @@ export const USER_EXAM_ELIGIBILITIES: Record<UserName, ExamEligibilityItem[]> = 
       remainingDays: 16,
       courseFormat: '온라인',
       examTitle: 'Tableau 시각화 및 대시보드 실기 평가',
-      examUrl: 'https://test15-beryl-eight.vercel.app/',
+      examUrl: 'https://test38-virid.vercel.app/',
     },
   ],
   류현진: [
@@ -2600,7 +2600,7 @@ export const USER_EXAM_ELIGIBILITIES: Record<UserName, ExamEligibilityItem[]> = 
       remainingDays: 20,
       courseFormat: '온라인',
       examTitle: 'AI Automation 업무 자동화 마스터 평가',
-      examUrl: 'https://test15-beryl-eight.vercel.app/',
+      examUrl: 'https://test38-virid.vercel.app/',
     },
     {
       id: 'exam-rhj-2',
@@ -2612,7 +2612,7 @@ export const USER_EXAM_ELIGIBILITIES: Record<UserName, ExamEligibilityItem[]> = 
       remainingDays: 8,
       courseFormat: '오프라인 집체',
       examTitle: '머신러닝 고급 알고리즘 마스터 시험',
-      examUrl: 'https://test15-beryl-eight.vercel.app/',
+      examUrl: 'https://test38-virid.vercel.app/',
     },
   ],
   박찬호: [
@@ -2626,7 +2626,7 @@ export const USER_EXAM_ELIGIBILITIES: Record<UserName, ExamEligibilityItem[]> = 
       remainingDays: 17,
       courseFormat: '오프라인 집체',
       examTitle: '머신러닝 모델링 전문가 실기 인증',
-      examUrl: 'https://test15-beryl-eight.vercel.app/',
+      examUrl: 'https://test38-virid.vercel.app/',
     },
     {
       id: 'exam-pch-2',
@@ -2638,7 +2638,7 @@ export const USER_EXAM_ELIGIBILITIES: Record<UserName, ExamEligibilityItem[]> = 
       remainingDays: 6,
       courseFormat: '온라인',
       examTitle: 'AXAGE 최고전문가 시각화 실기 평가',
-      examUrl: 'https://test15-beryl-eight.vercel.app/',
+      examUrl: 'https://test38-virid.vercel.app/',
     },
   ],
 };
@@ -2694,9 +2694,9 @@ export const ExamEligibilityModal: React.FC<ExamEligibilityModalProps> = ({
         <div className="bg-indigo-50/90 border-b border-indigo-100 px-4 py-2.5 flex items-start gap-2.5 shrink-0 text-xs text-indigo-900">
           <Sparkles className="w-4 h-4 text-indigo-600 shrink-0 mt-0.5" />
           <div className="leading-relaxed">
-            <span className="font-bold">test14 - test15 모듈 일치 연계: </span>
+            <span className="font-bold">AXAGE 모듈 일치 연계: </span>
             <span>
-              본 앱의 13개 교육 모듈과 <span className="font-semibold text-indigo-700">test15 시험응시 시스템</span>의 응시 모듈이 1:1로 일치하도록 구성되어 있습니다. '응시하기'를 누르면 test15 앱으로 즉시 연결됩니다.
+              본 앱의 13개 교육 모듈과 <span className="font-semibold text-indigo-700">AXAGE 시험응시 시스템</span>의 응시 모듈이 1:1로 일치하도록 구성되어 있습니다. '응시하기'를 누르면 시험응시 앱(test38)으로 즉시 연결됩니다.
             </span>
           </div>
         </div>
@@ -2791,7 +2791,7 @@ export const ExamEligibilityModal: React.FC<ExamEligibilityModalProps> = ({
                       {isUrgent ? '⚠️ 응시 기한 마감이 임박했습니다.' : '✅ 기한 내 온라인으로 응시 가능합니다.'}
                     </span>
                     <a
-                      href={`https://test15-beryl-eight.vercel.app/?module=${encodeURIComponent(exam.module)}&user=${encodeURIComponent(currentUser)}`}
+                      href={`https://test38-virid.vercel.app/?module=${encodeURIComponent(exam.module)}&user=${encodeURIComponent(currentUser)}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white text-xs font-black shadow-xs hover:shadow-md transition-all cursor-pointer"
@@ -2809,7 +2809,7 @@ export const ExamEligibilityModal: React.FC<ExamEligibilityModalProps> = ({
         {/* Modal Footer */}
         <div className="p-3.5 sm:p-4 bg-slate-50 border-t border-slate-200 flex items-center justify-between shrink-0">
           <p className="text-xs text-slate-500 hidden sm:block">
-            💡 응시하기를 누르면 AXAGE 시험응시 시스템(test15-beryl-eight.vercel.app)으로 연결됩니다.
+            💡 응시하기를 누르면 AXAGE 시험응시 시스템(test38-virid.vercel.app)으로 연결됩니다.
           </p>
           <button
             onClick={onClose}
